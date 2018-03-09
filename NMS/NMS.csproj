@@ -5,11 +5,28 @@
     <UserSecretsId>aspnet-NMS-8F567896-E64C-468E-ADBA-522D8C721057</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="tablesorter-master\**" />
+    <Content Remove="tablesorter-master\**" />
+    <EmbeddedResource Remove="tablesorter-master\**" />
+    <None Remove="tablesorter-master\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\js\jquery.tablesorter.combined.js" />
+    <Content Remove="wwwroot\js\jquery.tablesorter.combined.min.js" />
+    <Content Remove="wwwroot\js\jquery.tablesorter.js" />
+    <Content Remove="wwwroot\js\jquery.tablesorter.min.js" />
+    <Content Remove="wwwroot\js\jquery.tablesorter.widgets.js" />
+    <Content Remove="wwwroot\js\jquery.tablesorter.widgets.min.js" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
   </ItemGroup>
@@ -18,6 +35,130 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\Tablesorter Css\bootstrap.less" />
+    <None Include="wwwroot\css\Tablesorter Css\dragtable.mod.css" />
+    <None Include="wwwroot\css\Tablesorter Css\filter.formatter.css" />
+    <None Include="wwwroot\css\Tablesorter Css\high-specificity\theme.blue.specific.css" />
+    <None Include="wwwroot\css\Tablesorter Css\highlights.css" />
+    <None Include="wwwroot\css\Tablesorter Css\images\black-asc.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\black-desc.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\black-unsorted.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\bootstrap-black-unsorted.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\bootstrap-white-unsorted.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\dragtable-handle.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\dragtable-handle.svg" />
+    <None Include="wwwroot\css\Tablesorter Css\images\dropbox-asc-hovered.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\dropbox-asc.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\dropbox-desc-hovered.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\dropbox-desc.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\green-asc.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\green-desc.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\green-header.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\green-unsorted.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\ice-asc.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\ice-desc.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\ice-unsorted.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\metro-black-asc.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\metro-black-desc.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\metro-loading.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\metro-unsorted.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\metro-white-asc.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\metro-white-desc.png" />
+    <None Include="wwwroot\css\Tablesorter Css\images\white-asc.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\white-desc.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\images\white-unsorted.gif" />
+    <None Include="wwwroot\css\Tablesorter Css\metro.less" />
+    <None Include="wwwroot\css\Tablesorter Css\psd\green-asc.psd" />
+    <None Include="wwwroot\css\Tablesorter Css\psd\green-desc.psd" />
+    <None Include="wwwroot\css\Tablesorter Css\psd\green-unsorted.psd" />
+    <None Include="wwwroot\css\Tablesorter Css\psd\metro-style.psd" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.black-ice.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.blue.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.bootstrap.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.bootstrap_2.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.bootstrap_3.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.bootstrap_4.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.dark.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.default.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.dropbox.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.green.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.grey.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.ice.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.jui.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.less" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.materialize.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.metro-dark.css" />
+    <None Include="wwwroot\css\Tablesorter Css\theme.scss" />
+    <None Include="wwwroot\css\Tablesorter Css\widget.grouping.css" />
+    <None Include="wwwroot\js\extras\jquery.dragtable.mod.js" />
+    <None Include="wwwroot\js\extras\jquery.metadata.js" />
+    <None Include="wwwroot\js\extras\semver-mod.js" />
+    <None Include="wwwroot\js\extras\semver.js" />
+    <None Include="wwwroot\js\jquery.tablesorter.combined.min.js" />
+    <None Include="wwwroot\js\jquery.tablesorter.min.js" />
+    <None Include="wwwroot\js\jquery.tablesorter.widgets.min.js" />
+    <None Include="wwwroot\js\parsers\parser-date-extract.js" />
+    <None Include="wwwroot\js\parsers\parser-date-iso8601.js" />
+    <None Include="wwwroot\js\parsers\parser-date-month.js" />
+    <None Include="wwwroot\js\parsers\parser-date-range.js" />
+    <None Include="wwwroot\js\parsers\parser-date-two-digit-year.js" />
+    <None Include="wwwroot\js\parsers\parser-date-weekday.js" />
+    <None Include="wwwroot\js\parsers\parser-date.js" />
+    <None Include="wwwroot\js\parsers\parser-duration.js" />
+    <None Include="wwwroot\js\parsers\parser-feet-inch-fraction.js" />
+    <None Include="wwwroot\js\parsers\parser-file-type.js" />
+    <None Include="wwwroot\js\parsers\parser-globalize.js" />
+    <None Include="wwwroot\js\parsers\parser-huge-numbers.js" />
+    <None Include="wwwroot\js\parsers\parser-ignore-articles.js" />
+    <None Include="wwwroot\js\parsers\parser-image.js" />
+    <None Include="wwwroot\js\parsers\parser-input-select.js" />
+    <None Include="wwwroot\js\parsers\parser-leading-zeros.js" />
+    <None Include="wwwroot\js\parsers\parser-metric.js" />
+    <None Include="wwwroot\js\parsers\parser-named-numbers.js" />
+    <None Include="wwwroot\js\parsers\parser-network.js" />
+    <None Include="wwwroot\js\parsers\parser-roman.js" />
+    <None Include="wwwroot\js\widgets\widget-alignChar.js" />
+    <None Include="wwwroot\js\widgets\widget-build-table.js" />
+    <None Include="wwwroot\js\widgets\widget-chart.js" />
+    <None Include="wwwroot\js\widgets\widget-columns.js" />
+    <None Include="wwwroot\js\widgets\widget-columnSelector.js" />
+    <None Include="wwwroot\js\widgets\widget-cssStickyHeaders.js" />
+    <None Include="wwwroot\js\widgets\widget-currentSort.js" />
+    <None Include="wwwroot\js\widgets\widget-editable.js" />
+    <None Include="wwwroot\js\widgets\widget-filter-formatter-html5.js" />
+    <None Include="wwwroot\js\widgets\widget-filter-formatter-jui.js" />
+    <None Include="wwwroot\js\widgets\widget-filter-formatter-select2.js" />
+    <None Include="wwwroot\js\widgets\widget-filter-type-insideRange.js" />
+    <None Include="wwwroot\js\widgets\widget-filter.js" />
+    <None Include="wwwroot\js\widgets\widget-formatter.js" />
+    <None Include="wwwroot\js\widgets\widget-grouping.js" />
+    <None Include="wwwroot\js\widgets\widget-headerTitles.js" />
+    <None Include="wwwroot\js\widgets\widget-lazyload.js" />
+    <None Include="wwwroot\js\widgets\widget-mark.js" />
+    <None Include="wwwroot\js\widgets\widget-math.js" />
+    <None Include="wwwroot\js\widgets\widget-output.js" />
+    <None Include="wwwroot\js\widgets\widget-pager.js" />
+    <None Include="wwwroot\js\widgets\widget-print.js" />
+    <None Include="wwwroot\js\widgets\widget-reflow.js" />
+    <None Include="wwwroot\js\widgets\widget-repeatheaders.js" />
+    <None Include="wwwroot\js\widgets\widget-resizable.js" />
+    <None Include="wwwroot\js\widgets\widget-saveSort.js" />
+    <None Include="wwwroot\js\widgets\widget-scroller.js" />
+    <None Include="wwwroot\js\widgets\widget-sort2Hash.js" />
+    <None Include="wwwroot\js\widgets\widget-sortTbodies.js" />
+    <None Include="wwwroot\js\widgets\widget-staticRow.js" />
+    <None Include="wwwroot\js\widgets\widget-stickyHeaders.js" />
+    <None Include="wwwroot\js\widgets\widget-storage.js" />
+    <None Include="wwwroot\js\widgets\widget-toggle.js" />
+    <None Include="wwwroot\js\widgets\widget-uitheme.js" />
+    <None Include="wwwroot\js\widgets\widget-vertical-group.js" />
+    <None Include="wwwroot\js\widgets\widget-view.js" />
+    <None Include="wwwroot\js\jquery.tablesorter.combined.js" />
+    <None Include="wwwroot\js\jquery.tablesorter.js" />
+    <None Include="wwwroot\js\jquery.tablesorter.widgets.js" />
   </ItemGroup>
 
 </Project>

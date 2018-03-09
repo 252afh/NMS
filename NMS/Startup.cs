@@ -30,6 +30,9 @@ namespace NMS
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<NMSDBContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -92,7 +95,7 @@ namespace NMS
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Number}/{action=Index}/");
+                    template: "{controller=Numbers}/{action=Index}/");
             });
         }
     }
