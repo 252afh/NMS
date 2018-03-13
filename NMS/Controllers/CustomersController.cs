@@ -1,35 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NMS.Models;
-using NMS.Models.NumberViewModels;
-using NMS.Models.NumberGroupModels;
+using NMS.Models.CustomerViewModels;
 
 namespace NMS.Controllers
 {
-    [Authorize]
-    public class NumbersController : Controller
+    public class CustomersController : Controller
     {
         private readonly NMSDBContext _context;
 
-        public NumbersController(NMSDBContext context)
+        public CustomersController(NMSDBContext context)
         {
             _context = context;
         }
 
-        // GET: Numbers
+        // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Number.ToListAsync());
+            return View(await _context.Customer.ToListAsync());
         }
 
-        // GET: Numbers/Details/5
+        // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,51 +33,45 @@ namespace NMS.Controllers
                 return NotFound();
             }
 
-            var number = await _context.Number
+            var customer = await _context.Customer
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (number == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(number);
+            return View(customer);
         }
 
-        // GET: Numbers/Create
+        // GET: Customers/Create
         public async Task<IActionResult> Create()
         {
-            CreateNumberModel createModel = await GetModelAsync();
-
-            return View(createModel);
-        }
-
-        public async Task<CreateNumberModel> GetModelAsync()
-        {
-            return new CreateNumberModel
+            CreateCustomerModel CustomerModel = new CreateCustomerModel
             {
-                Customer = await _context.Customer.ToListAsync(),
-                Number = new Number(),
-                NumberGroup = await _context.NumberGroup.ToListAsync(),
+                Customer = new Customer(),
+                CustomLcr = await _context.CustomLcr.ToListAsync(),
             };
+
+            return View(CustomerModel);
         }
 
-        // POST: Numbers/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Number1,Description,FkCustomer,FkGroup,ActiveDate,CustomerDescription,CeaseDate")] Number number)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,RoutingNumber,DefaultBillingNumber,NonGeo,FkExceptionLcr,BlockAnonymous,Customercol")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(number);
+                _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(number);
+            return View(customer);
         }
 
-        // GET: Numbers/Edit/5
+        // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,22 +79,22 @@ namespace NMS.Controllers
                 return NotFound();
             }
 
-            var number = await _context.Number.SingleOrDefaultAsync(m => m.Id == id);
-            if (number == null)
+            var customer = await _context.Customer.SingleOrDefaultAsync(m => m.Id == id);
+            if (customer == null)
             {
                 return NotFound();
             }
-            return View(number);
+            return View(customer);
         }
 
-        // POST: Numbers/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Number1,Description,FkCustomer,FkGroup,ActiveDate,CustomerDescription,CeaseDate")] Number number)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,RoutingNumber,DefaultBillingNumber,NonGeo,FkExceptionLcr,BlockAnonymous,Customercol")] Customer customer)
         {
-            if (id != number.Id)
+            if (id != customer.Id)
             {
                 return NotFound();
             }
@@ -113,12 +103,12 @@ namespace NMS.Controllers
             {
                 try
                 {
-                    _context.Update(number);
+                    _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NumberExists(number.Id))
+                    if (!CustomerExists(customer.Id))
                     {
                         return NotFound();
                     }
@@ -129,10 +119,10 @@ namespace NMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(number);
+            return View(customer);
         }
 
-        // GET: Numbers/Delete/5
+        // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,30 +130,30 @@ namespace NMS.Controllers
                 return NotFound();
             }
 
-            var number = await _context.Number
+            var customer = await _context.Customer
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (number == null)
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(number);
+            return View(customer);
         }
 
-        // POST: Numbers/Delete/5
+        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var number = await _context.Number.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Number.Remove(number);
+            var customer = await _context.Customer.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Customer.Remove(customer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool NumberExists(int id)
+        private bool CustomerExists(int id)
         {
-            return _context.Number.Any(e => e.Id == id);
+            return _context.Customer.Any(e => e.Id == id);
         }
     }
 }

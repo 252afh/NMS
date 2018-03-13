@@ -1,35 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NMS.Models;
-using NMS.Models.NumberViewModels;
-using NMS.Models.NumberGroupModels;
+using NMS.Models.CustomLcrModels;
 
 namespace NMS.Controllers
 {
-    [Authorize]
-    public class NumbersController : Controller
+    public class CustomLcrController : Controller
     {
         private readonly NMSDBContext _context;
 
-        public NumbersController(NMSDBContext context)
+        public CustomLcrController(NMSDBContext context)
         {
             _context = context;
         }
 
-        // GET: Numbers
+        // GET: CustomLcrs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Number.ToListAsync());
+            return View(await _context.CustomLcr.ToListAsync());
         }
 
-        // GET: Numbers/Details/5
+        // GET: CustomLcrs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,51 +33,39 @@ namespace NMS.Controllers
                 return NotFound();
             }
 
-            var number = await _context.Number
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (number == null)
+            var CustomLcr = await _context.CustomLcr
+                .SingleOrDefaultAsync(m => m.IdCustomLcr == id);
+            if (CustomLcr == null)
             {
                 return NotFound();
             }
 
-            return View(number);
+            return View(CustomLcr);
         }
 
-        // GET: Numbers/Create
-        public async Task<IActionResult> Create()
+        // GET: CustomLcrs/Create
+        public IActionResult Create()
         {
-            CreateNumberModel createModel = await GetModelAsync();
-
-            return View(createModel);
+            return View();
         }
 
-        public async Task<CreateNumberModel> GetModelAsync()
-        {
-            return new CreateNumberModel
-            {
-                Customer = await _context.Customer.ToListAsync(),
-                Number = new Number(),
-                NumberGroup = await _context.NumberGroup.ToListAsync(),
-            };
-        }
-
-        // POST: Numbers/Create
+        // POST: CustomLcr/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Number1,Description,FkCustomer,FkGroup,ActiveDate,CustomerDescription,CeaseDate")] Number number)
+        public async Task<IActionResult> Create([Bind("IdCustomLcr,Name,Description")] CustomLcr CustomLcr)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(number);
+                _context.Add(CustomLcr);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(number);
+            return View(CustomLcr);
         }
 
-        // GET: Numbers/Edit/5
+        // GET: Customlcrs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,22 +73,22 @@ namespace NMS.Controllers
                 return NotFound();
             }
 
-            var number = await _context.Number.SingleOrDefaultAsync(m => m.Id == id);
-            if (number == null)
+            var CustomLcr = await _context.CustomLcr.SingleOrDefaultAsync(m => m.IdCustomLcr == id);
+            if (CustomLcr == null)
             {
                 return NotFound();
             }
-            return View(number);
+            return View(CustomLcr);
         }
 
-        // POST: Numbers/Edit/5
+        // POST: Customlcrs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Number1,Description,FkCustomer,FkGroup,ActiveDate,CustomerDescription,CeaseDate")] Number number)
+        public async Task<IActionResult> Edit(int id, [Bind("IdCustomLcr,Name,Description")] CustomLcr CustomLcr)
         {
-            if (id != number.Id)
+            if (id != CustomLcr.IdCustomLcr)
             {
                 return NotFound();
             }
@@ -113,12 +97,12 @@ namespace NMS.Controllers
             {
                 try
                 {
-                    _context.Update(number);
+                    _context.Update(CustomLcr);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NumberExists(number.Id))
+                    if (!CustomlcrExists(CustomLcr.IdCustomLcr))
                     {
                         return NotFound();
                     }
@@ -129,10 +113,10 @@ namespace NMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(number);
+            return View(CustomLcr);
         }
 
-        // GET: Numbers/Delete/5
+        // GET: Customlcrs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,30 +124,30 @@ namespace NMS.Controllers
                 return NotFound();
             }
 
-            var number = await _context.Number
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (number == null)
+            var CustomLcr = await _context.CustomLcr
+                .SingleOrDefaultAsync(m => m.IdCustomLcr == id);
+            if (CustomLcr == null)
             {
                 return NotFound();
             }
 
-            return View(number);
+            return View(CustomLcr);
         }
 
-        // POST: Numbers/Delete/5
+        // POST: Customlcrs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var number = await _context.Number.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Number.Remove(number);
+            var CustomLcr = await _context.CustomLcr.SingleOrDefaultAsync(m => m.IdCustomLcr == id);
+            _context.CustomLcr.Remove(CustomLcr);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool NumberExists(int id)
+        private bool CustomlcrExists(int id)
         {
-            return _context.Number.Any(e => e.Id == id);
+            return _context.CustomLcr.Any(e => e.IdCustomLcr == id);
         }
     }
 }

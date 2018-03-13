@@ -1,0 +1,66 @@
+﻿@using NMS.Models.CustomerViewModels
+@using NMS.Models.CustomLcrModels
+@model CreateCustomerModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Customer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Customer.Name" class="control-label"></label>
+                <input asp-for="Customer.Name" class="form-control" />
+                <span asp-validation-for="Customer.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.Description" class="control-label"></label>
+                <input asp-for="Customer.Description" class="form-control" />
+                <span asp-validation-for="Customer.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.RoutingNumber" class="control-label"></label>
+                <input asp-for="Customer.RoutingNumber" class="form-control" />
+                <span asp-validation-for="Customer.RoutingNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.DefaultBillingNumber" class="control-label"></label>
+                <input asp-for="Customer.DefaultBillingNumber" class="form-control" />
+                <span asp-validation-for="Customer.DefaultBillingNumber" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Customer.NonGeo" class="control-label"></label>
+                <input type="checkbox" value="true" checked="checked" asp-for="Customer.NonGeo" class="form-control" />
+                <span asp-validation-for="Customer.NonGeo" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="Customer.FkExceptionLcr" class="control-label"></label>
+                <select asp-for="Customer.FkExceptionLcr" class="form-control" >
+                @foreach (CustomLcr customLcr in Model.CustomLcr)
+                {
+                    <option value="@customLcr.IdCustomLcr">@customLcr.Name</option>
+
+                }
+                </select>
+                <span asp-validation-for="Customer.FkExceptionLcr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

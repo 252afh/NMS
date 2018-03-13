@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace NMS.Models
+namespace NMS.Models.NumberViewModels
 {
     public partial class Number
     {
