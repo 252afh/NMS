@@ -1,0 +1,86 @@
+﻿@using NMS.Models.NumberViewModels
+@using NMS.Models.CustomerViewModels
+@using NMS.Models.NumberGroupModels
+@model CreateNumberModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/css/InputForms.css" rel="stylesheet">
+</head>
+<body>
+    <h2>Create</h2>
+
+    <h4>Number</h4>
+    <hr />
+    <div class="row">
+        <div>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Number.Number1" class="control-label"></label>
+                    <input asp-for="Number.Number1" class="form-control" />
+                    <span asp-validation-for="Number.Number1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Number.Description" class="control-label"></label>
+                    <input asp-for="Number.Description" class="form-control" />
+                    <span asp-validation-for="Number.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+
+                    <label asp-for="Number.FkCustomer" class="control-label"></label>
+                    <select asp-for="Number.FkCustomer" class="form-control">
+                        @foreach (Customer customer in Model.Customer)
+                        {
+                            <option value="@customer.Id">@customer.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Number.FkCustomer" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Number.FkGroup" class="control-label"></label>
+                    <select asp-for="Number.FkGroup" class="form-control">
+                        @foreach (Numbergroup numberGroup in Model.NumberGroup)
+                        {
+                            <option value="@numberGroup.Idgroup">@numberGroup.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Number.FkGroup" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Number.ActiveDate" class="control-label"></label>
+                    <input type="date" asp-for="Number.ActiveDate" class="form-control" />
+                    <span asp-validation-for="Number.ActiveDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Number.CustomerDescription" class="control-label"></label>
+                    <input asp-for="Number.CustomerDescription" class="form-control" />
+                    <span asp-validation-for="Number.CustomerDescription" ></span>
+                </div>
+                <div class="form-group">
+                        <label asp-for="Number.CeaseDate" class="control-label"></label>
+                        <input type="date" asp-for="Number.CeaseDate" class="form-control" />
+                        <span asp-validation-for="Number.CeaseDate" class="text-danger">
+                        </span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
