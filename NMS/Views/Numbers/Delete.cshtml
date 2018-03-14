@@ -1,0 +1,63 @@
+﻿@model NMS.Models.NumberViewModels.Number
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Number</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Number1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Number1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkCustomer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkCustomer)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkGroup)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkGroup)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ActiveDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ActiveDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CeaseDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CeaseDate)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Idnumber" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

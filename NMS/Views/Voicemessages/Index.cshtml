@@ -1,0 +1,101 @@
+﻿@model IEnumerable<NMS.Models.VoiceMessagesViewModels.Voicemessages>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Msgnum)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dir)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Context)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Macrocontext)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Callerid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Origtime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Duration)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Flag)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mailboxuser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mailboxcontext)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MsgId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Recording)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Msgnum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dir)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Context)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Macrocontext)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Callerid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Origtime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mailboxuser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mailboxcontext)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MsgId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recording)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

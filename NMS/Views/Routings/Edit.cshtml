@@ -1,0 +1,84 @@
+﻿@model NMS.Models.RoutingViewModels.Routing
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Routing</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Idrouting" />
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <input asp-for="Priority" class="form-control" />
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RingingTime" class="control-label"></label>
+                <input asp-for="RingingTime" class="form-control" />
+                <span asp-validation-for="RingingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkContact" class="control-label"></label>
+                <input asp-for="FkContact" class="form-control" />
+                <span asp-validation-for="FkContact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkSite" class="control-label"></label>
+                <input asp-for="FkSite" class="form-control" />
+                <span asp-validation-for="FkSite" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Active" class="control-label"></label>
+                <input asp-for="Active" class="form-control" />
+                <span asp-validation-for="Active" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkRoutingGroup" class="control-label"></label>
+                <input asp-for="FkRoutingGroup" class="form-control" />
+                <span asp-validation-for="FkRoutingGroup" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HuntBusy" class="control-label"></label>
+                <input asp-for="HuntBusy" class="form-control" />
+                <span asp-validation-for="HuntBusy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkAnnouncement" class="control-label"></label>
+                <input asp-for="FkAnnouncement" class="form-control" />
+                <span asp-validation-for="FkAnnouncement" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkIvr" class="control-label"></label>
+                <input asp-for="FkIvr" class="form-control" />
+                <span asp-validation-for="FkIvr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkMailbox" class="control-label"></label>
+                <input asp-for="FkMailbox" class="form-control" />
+                <span asp-validation-for="FkMailbox" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VoicemailMain" class="control-label"></label>
+                <input asp-for="VoicemailMain" class="form-control" />
+                <span asp-validation-for="VoicemailMain" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
