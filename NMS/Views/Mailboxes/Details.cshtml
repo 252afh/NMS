@@ -1,0 +1,90 @@
+﻿@model NMS.Models.MailboxViewModels.Mailbox
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Mailbox</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Pin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pin)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SendEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SendEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DeleteOpt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeleteOpt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Attachment)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Attachment)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Audiomessage)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Audiomessage)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Audioname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Audioname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Audiosize)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Audiosize)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkCustomer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkCustomer)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Fax)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fax)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Idmailbox">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

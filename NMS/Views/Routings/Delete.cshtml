@@ -1,0 +1,87 @@
+﻿@model NMS.Models.RoutingViewModels.Routing
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Routing</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Priority)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Priority)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RingingTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RingingTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkContact)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkContact)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkSite)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkSite)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkRoutingGroup)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkRoutingGroup)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HuntBusy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HuntBusy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkAnnouncement)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkAnnouncement)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkIvr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkIvr)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkMailbox)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkMailbox)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.VoicemailMain)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VoicemailMain)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Idrouting" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

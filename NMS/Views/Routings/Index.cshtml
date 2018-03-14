@@ -1,0 +1,95 @@
+﻿@model IEnumerable<NMS.Models.RoutingViewModels.Routing>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Priority)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RingingTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FkContact)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FkSite)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Active)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FkRoutingGroup)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HuntBusy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FkAnnouncement)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FkIvr)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FkMailbox)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VoicemailMain)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RingingTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkContact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkSite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkRoutingGroup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HuntBusy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkAnnouncement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkIvr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkMailbox)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VoicemailMain)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Idrouting">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Idrouting">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Idrouting">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

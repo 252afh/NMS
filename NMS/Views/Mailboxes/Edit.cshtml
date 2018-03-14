@@ -1,0 +1,89 @@
+﻿@model NMS.Models.MailboxViewModels.Mailbox
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Mailbox</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Idmailbox" />
+            <div class="form-group">
+                <label asp-for="Pin" class="control-label"></label>
+                <input asp-for="Pin" class="form-control" />
+                <span asp-validation-for="Pin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SendEmail" class="control-label"></label>
+                <input asp-for="SendEmail" class="form-control" />
+                <span asp-validation-for="SendEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeleteOpt" class="control-label"></label>
+                <input asp-for="DeleteOpt" class="form-control" />
+                <span asp-validation-for="DeleteOpt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Attachment" class="control-label"></label>
+                <input asp-for="Attachment" class="form-control" />
+                <span asp-validation-for="Attachment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Audiomessage" class="control-label"></label>
+                <input asp-for="Audiomessage" class="form-control" />
+                <span asp-validation-for="Audiomessage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Audioname" class="control-label"></label>
+                <input asp-for="Audioname" class="form-control" />
+                <span asp-validation-for="Audioname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Audiosize" class="control-label"></label>
+                <input asp-for="Audiosize" class="form-control" />
+                <span asp-validation-for="Audiosize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkNumber" class="control-label"></label>
+                <input asp-for="FkNumber" class="form-control" />
+                <span asp-validation-for="FkNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkCustomer" class="control-label"></label>
+                <input asp-for="FkCustomer" class="form-control" />
+                <span asp-validation-for="FkCustomer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fax" class="control-label"></label>
+                <input asp-for="Fax" class="form-control" />
+                <span asp-validation-for="Fax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,71 @@
+﻿@model IEnumerable<NMS.Models.LogViewModels.Log>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Action)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Timestamp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Table)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Attribute)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NewValue)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdModified)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FkUser)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Action)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Timestamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Table)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Attribute)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdModified)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkUser)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Idlog">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Idlog">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Idlog">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,58 @@
+﻿@model NMS.Models.IvrActionViewModels.Ivraction
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Ivraction</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Digit" class="control-label"></label>
+                <input asp-for="Digit" class="form-control" />
+                <span asp-validation-for="Digit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkIvr" class="control-label"></label>
+                <input asp-for="FkIvr" class="form-control" />
+                <span asp-validation-for="FkIvr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkIvrDest" class="control-label"></label>
+                <input asp-for="FkIvrDest" class="form-control" />
+                <span asp-validation-for="FkIvrDest" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkContactDest" class="control-label"></label>
+                <input asp-for="FkContactDest" class="form-control" />
+                <span asp-validation-for="FkContactDest" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkAnnouncementDest" class="control-label"></label>
+                <input asp-for="FkAnnouncementDest" class="form-control" />
+                <span asp-validation-for="FkAnnouncementDest" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkMailboxDest" class="control-label"></label>
+                <input asp-for="FkMailboxDest" class="form-control" />
+                <span asp-validation-for="FkMailboxDest" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

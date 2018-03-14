@@ -1,0 +1,69 @@
+﻿@model NMS.Models.CustomerViewModels.Customer
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RoutingNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RoutingNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DefaultBillingNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DefaultBillingNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NonGeo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NonGeo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FkExceptionLcr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FkExceptionLcr)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BlockAnonymous)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BlockAnonymous)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customercol)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customercol)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Idcustomer" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

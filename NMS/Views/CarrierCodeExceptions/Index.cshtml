@@ -1,0 +1,59 @@
+﻿@model IEnumerable<NMS.Models.CarrierCodeExceptionViewModels.CarrierCodeException>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Priority)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FkCarrier)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FkCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FkExceptionLcr)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkCarrier)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkExceptionLcr)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdcarrierCodeException">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdcarrierCodeException">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdcarrierCodeException">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
