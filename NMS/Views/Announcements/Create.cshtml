@@ -1,0 +1,68 @@
+﻿@model NMS.Models.AnnouncementViewModels.Announcement
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Announcement</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Audiomessage" class="control-label"></label>
+                <input asp-for="Audiomessage" class="form-control" />
+                <span asp-validation-for="Audiomessage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Audioname" class="control-label"></label>
+                <input asp-for="Audioname" class="form-control" />
+                <span asp-validation-for="Audioname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Audiosize" class="control-label"></label>
+                <input asp-for="Audiosize" class="form-control" />
+                <span asp-validation-for="Audiosize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Repeattimes" class="control-label"></label>
+                <input asp-for="Repeattimes" class="form-control" />
+                <span asp-validation-for="Repeattimes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkCustomer" class="control-label"></label>
+                <input asp-for="FkCustomer" class="form-control" />
+                <span asp-validation-for="FkCustomer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FkContact" class="control-label"></label>
+                <input asp-for="FkContact" class="form-control" />
+                <span asp-validation-for="FkContact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
