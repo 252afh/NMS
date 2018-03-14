@@ -7,9 +7,23 @@
 
   <ItemGroup>
     <Compile Remove="tablesorter-master\**" />
+    <Compile Remove="Views\Customer\**" />
     <Content Remove="tablesorter-master\**" />
+    <Content Remove="Views\Customer\**" />
     <EmbeddedResource Remove="tablesorter-master\**" />
+    <EmbeddedResource Remove="Views\Customer\**" />
     <None Remove="tablesorter-master\**" />
+    <None Remove="Views\Customer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Aspnetroleclaims.cs" />
+    <Compile Remove="Models\Aspnetroles.cs" />
+    <Compile Remove="Models\Aspnetuserclaims.cs" />
+    <Compile Remove="Models\Aspnetuserlogins.cs" />
+    <Compile Remove="Models\Aspnetuserroles.cs" />
+    <Compile Remove="Models\Aspnetusers.cs" />
+    <Compile Remove="Models\Aspnetusertokens.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,10 +43,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
     <PackageReference Include="Moment.js" Version="2.21.0" />
     <PackageReference Include="MySql.Data" Version="6.10.6" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore.Design" Version="6.10.6" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -163,10 +180,6 @@
     <None Include="wwwroot\js\jquery.tablesorter.combined.js" />
     <None Include="wwwroot\js\jquery.tablesorter.js" />
     <None Include="wwwroot\js\jquery.tablesorter.widgets.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Customer\" />
   </ItemGroup>
 
 </Project>

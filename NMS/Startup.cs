@@ -28,10 +28,10 @@ namespace NMS
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(Configuration.GetConnectionString("MySqlConnection")));
 
-            services.AddDbContext<NMSDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<nmsdbContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("MySqlConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -95,7 +95,7 @@ namespace NMS
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Numbers}/{action=Index}/");
+                    template: "{controller=Home}/{action=Index}/");
             });
         }
     }
