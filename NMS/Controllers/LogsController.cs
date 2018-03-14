@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.LogViewModels;
+﻿// <copyright file="LogsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.LogViewModels;
+
     public class LogsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public LogsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Logs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Log.ToListAsync());
+            return this.View(await this.context.Log.ToListAsync());
         }
 
         // GET: Logs/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var log = await _context.Log
+            var log = await this.context.Log
                 .SingleOrDefaultAsync(m => m.Idlog == id);
             if (log == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(log);
+            return this.View(log);
         }
 
         // GET: Logs/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Logs/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idlog,Action,Timestamp,Table,Attribute,NewValue,IdModified,FkUser")] Log log)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(log);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(log);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(log);
+
+            return this.View(log);
         }
 
         // GET: Logs/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var log = await _context.Log.SingleOrDefaultAsync(m => m.Idlog == id);
+            var log = await this.context.Log.SingleOrDefaultAsync(m => m.Idlog == id);
             if (log == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(log);
+
+            return this.View(log);
         }
 
         // POST: Logs/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != log.Idlog)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(log);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(log);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LogExists(log.Idlog))
+                    if (!this.LogExists(log.Idlog))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(log);
+
+            return this.View(log);
         }
 
         // GET: Logs/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var log = await _context.Log
+            var log = await this.context.Log
                 .SingleOrDefaultAsync(m => m.Idlog == id);
             if (log == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(log);
+            return this.View(log);
         }
 
         // POST: Logs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var log = await _context.Log.SingleOrDefaultAsync(m => m.Idlog == id);
-            _context.Log.Remove(log);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var log = await this.context.Log.SingleOrDefaultAsync(m => m.Idlog == id);
+            this.context.Log.Remove(log);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool LogExists(long id)
         {
-            return _context.Log.Any(e => e.Idlog == id);
+            return this.context.Log.Any(e => e.Idlog == id);
         }
     }
 }

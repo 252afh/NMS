@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.ContactViewModels;
+﻿// <copyright file="ContactsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.ContactViewModels;
+
     public class ContactsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public ContactsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Contacts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Contact.ToListAsync());
+            return this.View(await this.context.Contact.ToListAsync());
         }
 
         // GET: Contacts/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var contact = await _context.Contact
+            var contact = await this.context.Contact
                 .SingleOrDefaultAsync(m => m.Idcontact == id);
             if (contact == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(contact);
+            return this.View(contact);
         }
 
         // GET: Contacts/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Contacts/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idcontact,Name,Description,PhoneNumber,FkCustomer,FkSite")] Contact contact)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(contact);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(contact);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(contact);
+
+            return this.View(contact);
         }
 
         // GET: Contacts/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var contact = await _context.Contact.SingleOrDefaultAsync(m => m.Idcontact == id);
+            var contact = await this.context.Contact.SingleOrDefaultAsync(m => m.Idcontact == id);
             if (contact == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(contact);
+
+            return this.View(contact);
         }
 
         // POST: Contacts/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != contact.Idcontact)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(contact);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(contact);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContactExists(contact.Idcontact))
+                    if (!this.ContactExists(contact.Idcontact))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(contact);
+
+            return this.View(contact);
         }
 
         // GET: Contacts/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var contact = await _context.Contact
+            var contact = await this.context.Contact
                 .SingleOrDefaultAsync(m => m.Idcontact == id);
             if (contact == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(contact);
+            return this.View(contact);
         }
 
         // POST: Contacts/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contact = await _context.Contact.SingleOrDefaultAsync(m => m.Idcontact == id);
-            _context.Contact.Remove(contact);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var contact = await this.context.Contact.SingleOrDefaultAsync(m => m.Idcontact == id);
+            this.context.Contact.Remove(contact);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool ContactExists(int id)
         {
-            return _context.Contact.Any(e => e.Idcontact == id);
+            return this.context.Contact.Any(e => e.Idcontact == id);
         }
     }
 }

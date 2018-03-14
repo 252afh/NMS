@@ -1,13 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using NMS.Services;
+// <copyright file="EmailHelper.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
-namespace NMS.Services
+namespace NMS.Helpers
 {
-    public static class EmailSenderExtensions
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
+    using NMS.Services;
+
+    public static class EmailHelper
     {
         public static Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email, string link)
         {

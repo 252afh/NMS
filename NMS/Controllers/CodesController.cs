@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.CodeViewModels;
+﻿// <copyright file="CodesController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.CodeViewModels;
+
     public class CodesController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public CodesController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Codes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Code.ToListAsync());
+            return this.View(await this.context.Code.ToListAsync());
         }
 
         // GET: Codes/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var code = await _context.Code
+            var code = await this.context.Code
                 .SingleOrDefaultAsync(m => m.Idcode == id);
             if (code == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(code);
+            return this.View(code);
         }
 
         // GET: Codes/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Codes/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idcode,DialledNumber,Description")] Code code)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(code);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(code);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(code);
+
+            return this.View(code);
         }
 
         // GET: Codes/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var code = await _context.Code.SingleOrDefaultAsync(m => m.Idcode == id);
+            var code = await this.context.Code.SingleOrDefaultAsync(m => m.Idcode == id);
             if (code == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(code);
+
+            return this.View(code);
         }
 
         // POST: Codes/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != code.Idcode)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(code);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(code);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CodeExists(code.Idcode))
+                    if (!this.CodeExists(code.Idcode))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(code);
+
+            return this.View(code);
         }
 
         // GET: Codes/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var code = await _context.Code
+            var code = await this.context.Code
                 .SingleOrDefaultAsync(m => m.Idcode == id);
             if (code == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(code);
+            return this.View(code);
         }
 
         // POST: Codes/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var code = await _context.Code.SingleOrDefaultAsync(m => m.Idcode == id);
-            _context.Code.Remove(code);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var code = await this.context.Code.SingleOrDefaultAsync(m => m.Idcode == id);
+            this.context.Code.Remove(code);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool CodeExists(int id)
         {
-            return _context.Code.Any(e => e.Idcode == id);
+            return this.context.Code.Any(e => e.Idcode == id);
         }
     }
 }

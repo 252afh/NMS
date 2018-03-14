@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.GroupTemplateViewModels;
+﻿// <copyright file="GroupTemplatesController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.GroupTemplateViewModels;
+
     public class GroupTemplatesController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public GroupTemplatesController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: GroupTemplates
         public async Task<IActionResult> Index()
         {
-            return View(await _context.GroupTemplate.ToListAsync());
+            return this.View(await this.context.GroupTemplate.ToListAsync());
         }
 
         // GET: GroupTemplates/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var groupTemplate = await _context.GroupTemplate
+            var groupTemplate = await this.context.GroupTemplate
                 .SingleOrDefaultAsync(m => m.IdgroupTemplate == id);
             if (groupTemplate == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(groupTemplate);
+            return this.View(groupTemplate);
         }
 
         // GET: GroupTemplates/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: GroupTemplates/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdgroupTemplate,FkGroup,FkTemplate,Priority,Active,FkRoutingGroup")] GroupTemplate groupTemplate)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(groupTemplate);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(groupTemplate);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(groupTemplate);
+
+            return this.View(groupTemplate);
         }
 
         // GET: GroupTemplates/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var groupTemplate = await _context.GroupTemplate.SingleOrDefaultAsync(m => m.IdgroupTemplate == id);
+            var groupTemplate = await this.context.GroupTemplate.SingleOrDefaultAsync(m => m.IdgroupTemplate == id);
             if (groupTemplate == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(groupTemplate);
+
+            return this.View(groupTemplate);
         }
 
         // POST: GroupTemplates/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != groupTemplate.IdgroupTemplate)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(groupTemplate);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(groupTemplate);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GroupTemplateExists(groupTemplate.IdgroupTemplate))
+                    if (!this.GroupTemplateExists(groupTemplate.IdgroupTemplate))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(groupTemplate);
+
+            return this.View(groupTemplate);
         }
 
         // GET: GroupTemplates/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var groupTemplate = await _context.GroupTemplate
+            var groupTemplate = await this.context.GroupTemplate
                 .SingleOrDefaultAsync(m => m.IdgroupTemplate == id);
             if (groupTemplate == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(groupTemplate);
+            return this.View(groupTemplate);
         }
 
         // POST: GroupTemplates/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var groupTemplate = await _context.GroupTemplate.SingleOrDefaultAsync(m => m.IdgroupTemplate == id);
-            _context.GroupTemplate.Remove(groupTemplate);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var groupTemplate = await this.context.GroupTemplate.SingleOrDefaultAsync(m => m.IdgroupTemplate == id);
+            this.context.GroupTemplate.Remove(groupTemplate);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool GroupTemplateExists(int id)
         {
-            return _context.GroupTemplate.Any(e => e.IdgroupTemplate == id);
+            return this.context.GroupTemplate.Any(e => e.IdgroupTemplate == id);
         }
     }
 }

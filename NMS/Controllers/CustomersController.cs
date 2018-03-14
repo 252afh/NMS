@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.CustomerViewModels;
+﻿// <copyright file="CustomersController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.CustomerViewModels;
+
     public class CustomersController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public CustomersController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customer.ToListAsync());
+            return this.View(await this.context.Customer.ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var customer = await _context.Customer
+            var customer = await this.context.Customer
                 .SingleOrDefaultAsync(m => m.Idcustomer == id);
             if (customer == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(customer);
+            return this.View(customer);
         }
 
         // GET: Customers/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Customers/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idcustomer,Name,Description,RoutingNumber,DefaultBillingNumber,NonGeo,FkExceptionLcr,BlockAnonymous,Customercol")] Customer customer)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(customer);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(customer);
+
+            return this.View(customer);
         }
 
         // GET: Customers/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var customer = await _context.Customer.SingleOrDefaultAsync(m => m.Idcustomer == id);
+            var customer = await this.context.Customer.SingleOrDefaultAsync(m => m.Idcustomer == id);
             if (customer == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(customer);
+
+            return this.View(customer);
         }
 
         // POST: Customers/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != customer.Idcustomer)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(customer);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.Idcustomer))
+                    if (!this.CustomerExists(customer.Idcustomer))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(customer);
+
+            return this.View(customer);
         }
 
         // GET: Customers/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var customer = await _context.Customer
+            var customer = await this.context.Customer
                 .SingleOrDefaultAsync(m => m.Idcustomer == id);
             if (customer == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(customer);
+            return this.View(customer);
         }
 
         // POST: Customers/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customer.SingleOrDefaultAsync(m => m.Idcustomer == id);
-            _context.Customer.Remove(customer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var customer = await this.context.Customer.SingleOrDefaultAsync(m => m.Idcustomer == id);
+            this.context.Customer.Remove(customer);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool CustomerExists(int id)
         {
-            return _context.Customer.Any(e => e.Idcustomer == id);
+            return this.context.Customer.Any(e => e.Idcustomer == id);
         }
     }
 }

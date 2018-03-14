@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright file="FeatureCustomer.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Models.FeatureCustomerViewModels
 {
+    using System;
+
     public partial class FeatureCustomer
     {
         public int IdfeatureCustomer { get; set; }

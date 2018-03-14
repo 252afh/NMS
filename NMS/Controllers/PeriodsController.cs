@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.PeriodViewModels;
+﻿// <copyright file="PeriodsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.PeriodViewModels;
+
     public class PeriodsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public PeriodsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Periods
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Period.ToListAsync());
+            return this.View(await this.context.Period.ToListAsync());
         }
 
         // GET: Periods/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var period = await _context.Period
+            var period = await this.context.Period
                 .SingleOrDefaultAsync(m => m.Idperiod == id);
             if (period == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(period);
+            return this.View(period);
         }
 
         // GET: Periods/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Periods/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idperiod,TimeFrom,TimeTo,Frequency,Day,Status,FkTemplate")] Period period)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(period);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(period);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(period);
+
+            return this.View(period);
         }
 
         // GET: Periods/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var period = await _context.Period.SingleOrDefaultAsync(m => m.Idperiod == id);
+            var period = await this.context.Period.SingleOrDefaultAsync(m => m.Idperiod == id);
             if (period == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(period);
+
+            return this.View(period);
         }
 
         // POST: Periods/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != period.Idperiod)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(period);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(period);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PeriodExists(period.Idperiod))
+                    if (!this.PeriodExists(period.Idperiod))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(period);
+
+            return this.View(period);
         }
 
         // GET: Periods/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var period = await _context.Period
+            var period = await this.context.Period
                 .SingleOrDefaultAsync(m => m.Idperiod == id);
             if (period == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(period);
+            return this.View(period);
         }
 
         // POST: Periods/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var period = await _context.Period.SingleOrDefaultAsync(m => m.Idperiod == id);
-            _context.Period.Remove(period);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var period = await this.context.Period.SingleOrDefaultAsync(m => m.Idperiod == id);
+            this.context.Period.Remove(period);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool PeriodExists(int id)
         {
-            return _context.Period.Any(e => e.Idperiod == id);
+            return this.context.Period.Any(e => e.Idperiod == id);
         }
     }
 }

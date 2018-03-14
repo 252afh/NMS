@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.FeatureViewModels;
+﻿// <copyright file="FeaturesController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.FeatureViewModels;
+
     public class FeaturesController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public FeaturesController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Features
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Feature.ToListAsync());
+            return this.View(await this.context.Feature.ToListAsync());
         }
 
         // GET: Features/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var feature = await _context.Feature
+            var feature = await this.context.Feature
                 .SingleOrDefaultAsync(m => m.Idfeature == id);
             if (feature == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(feature);
+            return this.View(feature);
         }
 
         // GET: Features/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Features/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idfeature,Name,Description,Code")] Feature feature)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(feature);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(feature);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(feature);
+
+            return this.View(feature);
         }
 
         // GET: Features/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var feature = await _context.Feature.SingleOrDefaultAsync(m => m.Idfeature == id);
+            var feature = await this.context.Feature.SingleOrDefaultAsync(m => m.Idfeature == id);
             if (feature == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(feature);
+
+            return this.View(feature);
         }
 
         // POST: Features/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != feature.Idfeature)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(feature);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(feature);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FeatureExists(feature.Idfeature))
+                    if (!this.FeatureExists(feature.Idfeature))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(feature);
+
+            return this.View(feature);
         }
 
         // GET: Features/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var feature = await _context.Feature
+            var feature = await this.context.Feature
                 .SingleOrDefaultAsync(m => m.Idfeature == id);
             if (feature == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(feature);
+            return this.View(feature);
         }
 
         // POST: Features/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var feature = await _context.Feature.SingleOrDefaultAsync(m => m.Idfeature == id);
-            _context.Feature.Remove(feature);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var feature = await this.context.Feature.SingleOrDefaultAsync(m => m.Idfeature == id);
+            this.context.Feature.Remove(feature);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool FeatureExists(int id)
         {
-            return _context.Feature.Any(e => e.Idfeature == id);
+            return this.context.Feature.Any(e => e.Idfeature == id);
         }
     }
 }

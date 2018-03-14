@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright file="Log.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Models.LogViewModels
 {
+    using System;
+
     public partial class Log
     {
         public long Idlog { get; set; }

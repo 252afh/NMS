@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.RoutingGroupViewModels;
+﻿// <copyright file="RoutinggroupsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.RoutingGroupViewModels;
+
     public class RoutinggroupsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public RoutinggroupsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Routinggroups
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Routinggroup.ToListAsync());
+            return this.View(await this.context.Routinggroup.ToListAsync());
         }
 
         // GET: Routinggroups/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var routinggroup = await _context.Routinggroup
+            var routinggroup = await this.context.Routinggroup
                 .SingleOrDefaultAsync(m => m.IdroutingGroup == id);
             if (routinggroup == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(routinggroup);
+            return this.View(routinggroup);
         }
 
         // GET: Routinggroups/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Routinggroups/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdroutingGroup,Name,Description,Active,IsUserGenerated,FkCustomer,Forking")] Routinggroup routinggroup)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(routinggroup);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(routinggroup);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(routinggroup);
+
+            return this.View(routinggroup);
         }
 
         // GET: Routinggroups/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var routinggroup = await _context.Routinggroup.SingleOrDefaultAsync(m => m.IdroutingGroup == id);
+            var routinggroup = await this.context.Routinggroup.SingleOrDefaultAsync(m => m.IdroutingGroup == id);
             if (routinggroup == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(routinggroup);
+
+            return this.View(routinggroup);
         }
 
         // POST: Routinggroups/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != routinggroup.IdroutingGroup)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(routinggroup);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(routinggroup);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoutinggroupExists(routinggroup.IdroutingGroup))
+                    if (!this.RoutinggroupExists(routinggroup.IdroutingGroup))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(routinggroup);
+
+            return this.View(routinggroup);
         }
 
         // GET: Routinggroups/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var routinggroup = await _context.Routinggroup
+            var routinggroup = await this.context.Routinggroup
                 .SingleOrDefaultAsync(m => m.IdroutingGroup == id);
             if (routinggroup == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(routinggroup);
+            return this.View(routinggroup);
         }
 
         // POST: Routinggroups/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var routinggroup = await _context.Routinggroup.SingleOrDefaultAsync(m => m.IdroutingGroup == id);
-            _context.Routinggroup.Remove(routinggroup);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var routinggroup = await this.context.Routinggroup.SingleOrDefaultAsync(m => m.IdroutingGroup == id);
+            this.context.Routinggroup.Remove(routinggroup);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool RoutinggroupExists(int id)
         {
-            return _context.Routinggroup.Any(e => e.IdroutingGroup == id);
+            return this.context.Routinggroup.Any(e => e.IdroutingGroup == id);
         }
     }
 }

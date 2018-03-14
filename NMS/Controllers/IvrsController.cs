@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.IvrViewModels;
+﻿// <copyright file="IvrsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.IvrViewModels;
+
     public class IvrsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public IvrsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Ivrs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ivr.ToListAsync());
+            return this.View(await this.context.Ivr.ToListAsync());
         }
 
         // GET: Ivrs/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var ivr = await _context.Ivr
+            var ivr = await this.context.Ivr
                 .SingleOrDefaultAsync(m => m.Idivr == id);
             if (ivr == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(ivr);
+            return this.View(ivr);
         }
 
         // GET: Ivrs/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Ivrs/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idivr,Name,Description,Audiomessage,Audioname,Audiosize,Repeattimes,Timeout,FkCustomer")] Ivr ivr)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(ivr);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(ivr);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(ivr);
+
+            return this.View(ivr);
         }
 
         // GET: Ivrs/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var ivr = await _context.Ivr.SingleOrDefaultAsync(m => m.Idivr == id);
+            var ivr = await this.context.Ivr.SingleOrDefaultAsync(m => m.Idivr == id);
             if (ivr == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(ivr);
+
+            return this.View(ivr);
         }
 
         // POST: Ivrs/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != ivr.Idivr)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(ivr);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(ivr);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!IvrExists(ivr.Idivr))
+                    if (!this.IvrExists(ivr.Idivr))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(ivr);
+
+            return this.View(ivr);
         }
 
         // GET: Ivrs/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var ivr = await _context.Ivr
+            var ivr = await this.context.Ivr
                 .SingleOrDefaultAsync(m => m.Idivr == id);
             if (ivr == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(ivr);
+            return this.View(ivr);
         }
 
         // POST: Ivrs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ivr = await _context.Ivr.SingleOrDefaultAsync(m => m.Idivr == id);
-            _context.Ivr.Remove(ivr);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var ivr = await this.context.Ivr.SingleOrDefaultAsync(m => m.Idivr == id);
+            this.context.Ivr.Remove(ivr);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool IvrExists(int id)
         {
-            return _context.Ivr.Any(e => e.Idivr == id);
+            return this.context.Ivr.Any(e => e.Idivr == id);
         }
     }
 }

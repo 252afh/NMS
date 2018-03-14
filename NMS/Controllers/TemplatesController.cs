@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.TemplateViewModels;
+﻿// <copyright file="TemplatesController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.TemplateViewModels;
+
     public class TemplatesController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public TemplatesController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Templates
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Template.ToListAsync());
+            return this.View(await this.context.Template.ToListAsync());
         }
 
         // GET: Templates/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var template = await _context.Template
+            var template = await this.context.Template
                 .SingleOrDefaultAsync(m => m.Idtemplate == id);
             if (template == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(template);
+            return this.View(template);
         }
 
         // GET: Templates/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Templates/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idtemplate,Name,Description,FkCustomer")] Template template)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(template);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(template);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(template);
+
+            return this.View(template);
         }
 
         // GET: Templates/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var template = await _context.Template.SingleOrDefaultAsync(m => m.Idtemplate == id);
+            var template = await this.context.Template.SingleOrDefaultAsync(m => m.Idtemplate == id);
             if (template == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(template);
+
+            return this.View(template);
         }
 
         // POST: Templates/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != template.Idtemplate)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(template);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(template);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TemplateExists(template.Idtemplate))
+                    if (!this.TemplateExists(template.Idtemplate))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(template);
+
+            return this.View(template);
         }
 
         // GET: Templates/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var template = await _context.Template
+            var template = await this.context.Template
                 .SingleOrDefaultAsync(m => m.Idtemplate == id);
             if (template == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(template);
+            return this.View(template);
         }
 
         // POST: Templates/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var template = await _context.Template.SingleOrDefaultAsync(m => m.Idtemplate == id);
-            _context.Template.Remove(template);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var template = await this.context.Template.SingleOrDefaultAsync(m => m.Idtemplate == id);
+            this.context.Template.Remove(template);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool TemplateExists(int id)
         {
-            return _context.Template.Any(e => e.Idtemplate == id);
+            return this.context.Template.Any(e => e.Idtemplate == id);
         }
     }
 }

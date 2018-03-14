@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.NumberTemplateViewModels;
+﻿// <copyright file="NumberTemplatesController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.NumberTemplateViewModels;
+
     public class NumberTemplatesController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public NumberTemplatesController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: NumberTemplates
         public async Task<IActionResult> Index()
         {
-            return View(await _context.NumberTemplate.ToListAsync());
+            return this.View(await this.context.NumberTemplate.ToListAsync());
         }
 
         // GET: NumberTemplates/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var numberTemplate = await _context.NumberTemplate
+            var numberTemplate = await this.context.NumberTemplate
                 .SingleOrDefaultAsync(m => m.IdnumberTemplate == id);
             if (numberTemplate == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(numberTemplate);
+            return this.View(numberTemplate);
         }
 
         // GET: NumberTemplates/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: NumberTemplates/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdnumberTemplate,FkNumber,FkTemplate,Priority,Active,FkRoutingGroup")] NumberTemplate numberTemplate)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(numberTemplate);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(numberTemplate);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(numberTemplate);
+
+            return this.View(numberTemplate);
         }
 
         // GET: NumberTemplates/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var numberTemplate = await _context.NumberTemplate.SingleOrDefaultAsync(m => m.IdnumberTemplate == id);
+            var numberTemplate = await this.context.NumberTemplate.SingleOrDefaultAsync(m => m.IdnumberTemplate == id);
             if (numberTemplate == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(numberTemplate);
+
+            return this.View(numberTemplate);
         }
 
         // POST: NumberTemplates/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != numberTemplate.IdnumberTemplate)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(numberTemplate);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(numberTemplate);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NumberTemplateExists(numberTemplate.IdnumberTemplate))
+                    if (!this.NumberTemplateExists(numberTemplate.IdnumberTemplate))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(numberTemplate);
+
+            return this.View(numberTemplate);
         }
 
         // GET: NumberTemplates/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var numberTemplate = await _context.NumberTemplate
+            var numberTemplate = await this.context.NumberTemplate
                 .SingleOrDefaultAsync(m => m.IdnumberTemplate == id);
             if (numberTemplate == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(numberTemplate);
+            return this.View(numberTemplate);
         }
 
         // POST: NumberTemplates/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var numberTemplate = await _context.NumberTemplate.SingleOrDefaultAsync(m => m.IdnumberTemplate == id);
-            _context.NumberTemplate.Remove(numberTemplate);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var numberTemplate = await this.context.NumberTemplate.SingleOrDefaultAsync(m => m.IdnumberTemplate == id);
+            this.context.NumberTemplate.Remove(numberTemplate);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool NumberTemplateExists(int id)
         {
-            return _context.NumberTemplate.Any(e => e.IdnumberTemplate == id);
+            return this.context.NumberTemplate.Any(e => e.IdnumberTemplate == id);
         }
     }
 }

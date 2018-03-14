@@ -1,45 +1,47 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using NMS.Models.AnnouncementViewModels;
-using NMS.Models.BarringViewModels;
-using NMS.Models.BlockingViewModels;
-using NMS.Models.CarrierCodeExceptionViewModels;
-using NMS.Models.CarrierCodeViewModels;
-using NMS.Models.CarrierNumberExceptionViewModels;
-using NMS.Models.CarrierViewModels;
-using NMS.Models.CodeViewModels;
-using NMS.Models.ContactViewModels;
-using NMS.Models.CustomerViewModels;
-using NMS.Models.DayDetailsViewModels;
-using NMS.Models.ExceptionLcrViewModels;
-using NMS.Models.ExceptionNumberViewModels;
-using NMS.Models.FeatureCustomerViewModels;
-using NMS.Models.FeatureViewModels;
-using NMS.Models.GroupTemplateViewModels;
-using NMS.Models.IvrActionViewModels;
-using NMS.Models.IvrViewModels;
-using NMS.Models.LcrViewModels;
-using NMS.Models.LogViewModels;
-using NMS.Models.MailboxViewModels;
-using NMS.Models.NumberFormatViewModels;
-using NMS.Models.NumberGroupViewModels;
-using NMS.Models.NumberTemplateViewModels;
-using NMS.Models.NumberViewModels;
-using NMS.Models.PeriodViewModels;
-using NMS.Models.ReportConfigurationNumberViewModels;
-using NMS.Models.ReportConfigurationViewModels;
-using NMS.Models.ReportCustomerViewModels;
-using NMS.Models.ReportViewModels;
-using NMS.Models.RoutingGroupViewModels;
-using NMS.Models.RoutingViewModels;
-using NMS.Models.SiteViewModels;
-using NMS.Models.TemplateViewModels;
-using NMS.Models.UserProfilesViewModels;
-using NMS.Models.VoiceMessagesViewModels;
+﻿// <copyright file="nmsdbContext.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Models
 {
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models.AnnouncementViewModels;
+    using NMS.Models.BarringViewModels;
+    using NMS.Models.BlockingViewModels;
+    using NMS.Models.CarrierCodeExceptionViewModels;
+    using NMS.Models.CarrierCodeViewModels;
+    using NMS.Models.CarrierNumberExceptionViewModels;
+    using NMS.Models.CarrierViewModels;
+    using NMS.Models.CodeViewModels;
+    using NMS.Models.ContactViewModels;
+    using NMS.Models.CustomerViewModels;
+    using NMS.Models.DayDetailsViewModels;
+    using NMS.Models.ExceptionLcrViewModels;
+    using NMS.Models.ExceptionNumberViewModels;
+    using NMS.Models.FeatureCustomerViewModels;
+    using NMS.Models.FeatureViewModels;
+    using NMS.Models.GroupTemplateViewModels;
+    using NMS.Models.IvrActionViewModels;
+    using NMS.Models.IvrViewModels;
+    using NMS.Models.LcrViewModels;
+    using NMS.Models.LogViewModels;
+    using NMS.Models.MailboxViewModels;
+    using NMS.Models.NumberFormatViewModels;
+    using NMS.Models.NumberGroupViewModels;
+    using NMS.Models.NumberTemplateViewModels;
+    using NMS.Models.NumberViewModels;
+    using NMS.Models.PeriodViewModels;
+    using NMS.Models.ReportConfigurationNumberViewModels;
+    using NMS.Models.ReportConfigurationViewModels;
+    using NMS.Models.ReportCustomerViewModels;
+    using NMS.Models.ReportViewModels;
+    using NMS.Models.RoutingGroupViewModels;
+    using NMS.Models.RoutingViewModels;
+    using NMS.Models.SiteViewModels;
+    using NMS.Models.TemplateViewModels;
+    using NMS.Models.UserProfilesViewModels;
+    using NMS.Models.VoiceMessagesViewModels;
+
     public partial class nmsdbContext : DbContext
     {
         public virtual DbSet<Announcement> Announcement { get; set; }

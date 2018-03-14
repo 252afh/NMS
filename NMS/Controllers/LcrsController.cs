@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.LcrViewModels;
+﻿// <copyright file="LcrsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.LcrViewModels;
+
     public class LcrsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public LcrsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Lcrs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Lcr.ToListAsync());
+            return this.View(await this.context.Lcr.ToListAsync());
         }
 
         // GET: Lcrs/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var lcr = await _context.Lcr
+            var lcr = await this.context.Lcr
                 .SingleOrDefaultAsync(m => m.Idlcr == id);
             if (lcr == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(lcr);
+            return this.View(lcr);
         }
 
         // GET: Lcrs/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Lcrs/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idlcr,Name,Description")] Lcr lcr)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(lcr);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(lcr);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(lcr);
+
+            return this.View(lcr);
         }
 
         // GET: Lcrs/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var lcr = await _context.Lcr.SingleOrDefaultAsync(m => m.Idlcr == id);
+            var lcr = await this.context.Lcr.SingleOrDefaultAsync(m => m.Idlcr == id);
             if (lcr == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(lcr);
+
+            return this.View(lcr);
         }
 
         // POST: Lcrs/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != lcr.Idlcr)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(lcr);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(lcr);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LcrExists(lcr.Idlcr))
+                    if (!this.LcrExists(lcr.Idlcr))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(lcr);
+
+            return this.View(lcr);
         }
 
         // GET: Lcrs/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var lcr = await _context.Lcr
+            var lcr = await this.context.Lcr
                 .SingleOrDefaultAsync(m => m.Idlcr == id);
             if (lcr == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(lcr);
+            return this.View(lcr);
         }
 
         // POST: Lcrs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var lcr = await _context.Lcr.SingleOrDefaultAsync(m => m.Idlcr == id);
-            _context.Lcr.Remove(lcr);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var lcr = await this.context.Lcr.SingleOrDefaultAsync(m => m.Idlcr == id);
+            this.context.Lcr.Remove(lcr);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool LcrExists(int id)
         {
-            return _context.Lcr.Any(e => e.Idlcr == id);
+            return this.context.Lcr.Any(e => e.Idlcr == id);
         }
     }
 }

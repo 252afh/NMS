@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.NumberViewModels;
+﻿// <copyright file="NumbersController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.NumberViewModels;
+
     public class NumbersController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public NumbersController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Numbers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Number.ToListAsync());
+            return this.View(await this.context.Number.ToListAsync());
         }
 
         // GET: Numbers/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var number = await _context.Number
+            var number = await this.context.Number
                 .SingleOrDefaultAsync(m => m.Idnumber == id);
             if (number == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(number);
+            return this.View(number);
         }
 
         // GET: Numbers/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Numbers/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idnumber,Number1,Description,FkCustomer,FkGroup,ActiveDate,CustomerDescription,CeaseDate")] Number number)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(number);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(number);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(number);
+
+            return this.View(number);
         }
 
         // GET: Numbers/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var number = await _context.Number.SingleOrDefaultAsync(m => m.Idnumber == id);
+            var number = await this.context.Number.SingleOrDefaultAsync(m => m.Idnumber == id);
             if (number == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(number);
+
+            return this.View(number);
         }
 
         // POST: Numbers/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != number.Idnumber)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(number);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(number);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NumberExists(number.Idnumber))
+                    if (!this.NumberExists(number.Idnumber))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(number);
+
+            return this.View(number);
         }
 
         // GET: Numbers/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var number = await _context.Number
+            var number = await this.context.Number
                 .SingleOrDefaultAsync(m => m.Idnumber == id);
             if (number == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(number);
+            return this.View(number);
         }
 
         // POST: Numbers/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var number = await _context.Number.SingleOrDefaultAsync(m => m.Idnumber == id);
-            _context.Number.Remove(number);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var number = await this.context.Number.SingleOrDefaultAsync(m => m.Idnumber == id);
+            this.context.Number.Remove(number);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool NumberExists(int id)
         {
-            return _context.Number.Any(e => e.Idnumber == id);
+            return this.context.Number.Any(e => e.Idnumber == id);
         }
     }
 }

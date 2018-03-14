@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.SiteViewModels;
+﻿// <copyright file="SitesController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.SiteViewModels;
+
     public class SitesController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public SitesController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Sites
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Site.ToListAsync());
+            return this.View(await this.context.Site.ToListAsync());
         }
 
         // GET: Sites/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var site = await _context.Site
+            var site = await this.context.Site
                 .SingleOrDefaultAsync(m => m.Idsite == id);
             if (site == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(site);
+            return this.View(site);
         }
 
         // GET: Sites/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Sites/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idsite,Name,Description,Domain,FkNumberFormat,FkCustomer")] Site site)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(site);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(site);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(site);
+
+            return this.View(site);
         }
 
         // GET: Sites/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var site = await _context.Site.SingleOrDefaultAsync(m => m.Idsite == id);
+            var site = await this.context.Site.SingleOrDefaultAsync(m => m.Idsite == id);
             if (site == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(site);
+
+            return this.View(site);
         }
 
         // POST: Sites/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != site.Idsite)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(site);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(site);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SiteExists(site.Idsite))
+                    if (!this.SiteExists(site.Idsite))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(site);
+
+            return this.View(site);
         }
 
         // GET: Sites/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var site = await _context.Site
+            var site = await this.context.Site
                 .SingleOrDefaultAsync(m => m.Idsite == id);
             if (site == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(site);
+            return this.View(site);
         }
 
         // POST: Sites/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var site = await _context.Site.SingleOrDefaultAsync(m => m.Idsite == id);
-            _context.Site.Remove(site);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var site = await this.context.Site.SingleOrDefaultAsync(m => m.Idsite == id);
+            this.context.Site.Remove(site);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool SiteExists(int id)
         {
-            return _context.Site.Any(e => e.Idsite == id);
+            return this.context.Site.Any(e => e.Idsite == id);
         }
     }
 }

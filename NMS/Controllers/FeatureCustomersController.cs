@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.FeatureCustomerViewModels;
+﻿// <copyright file="FeatureCustomersController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.FeatureCustomerViewModels;
+
     public class FeatureCustomersController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public FeatureCustomersController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: FeatureCustomers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.FeatureCustomer.ToListAsync());
+            return this.View(await this.context.FeatureCustomer.ToListAsync());
         }
 
         // GET: FeatureCustomers/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var featureCustomer = await _context.FeatureCustomer
+            var featureCustomer = await this.context.FeatureCustomer
                 .SingleOrDefaultAsync(m => m.IdfeatureCustomer == id);
             if (featureCustomer == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(featureCustomer);
+            return this.View(featureCustomer);
         }
 
         // GET: FeatureCustomers/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: FeatureCustomers/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdfeatureCustomer,DateFrom,DateTo,Quantity,FkFeature,FkCustomer")] FeatureCustomer featureCustomer)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(featureCustomer);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(featureCustomer);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(featureCustomer);
+
+            return this.View(featureCustomer);
         }
 
         // GET: FeatureCustomers/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var featureCustomer = await _context.FeatureCustomer.SingleOrDefaultAsync(m => m.IdfeatureCustomer == id);
+            var featureCustomer = await this.context.FeatureCustomer.SingleOrDefaultAsync(m => m.IdfeatureCustomer == id);
             if (featureCustomer == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(featureCustomer);
+
+            return this.View(featureCustomer);
         }
 
         // POST: FeatureCustomers/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != featureCustomer.IdfeatureCustomer)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(featureCustomer);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(featureCustomer);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FeatureCustomerExists(featureCustomer.IdfeatureCustomer))
+                    if (!this.FeatureCustomerExists(featureCustomer.IdfeatureCustomer))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(featureCustomer);
+
+            return this.View(featureCustomer);
         }
 
         // GET: FeatureCustomers/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var featureCustomer = await _context.FeatureCustomer
+            var featureCustomer = await this.context.FeatureCustomer
                 .SingleOrDefaultAsync(m => m.IdfeatureCustomer == id);
             if (featureCustomer == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(featureCustomer);
+            return this.View(featureCustomer);
         }
 
         // POST: FeatureCustomers/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var featureCustomer = await _context.FeatureCustomer.SingleOrDefaultAsync(m => m.IdfeatureCustomer == id);
-            _context.FeatureCustomer.Remove(featureCustomer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var featureCustomer = await this.context.FeatureCustomer.SingleOrDefaultAsync(m => m.IdfeatureCustomer == id);
+            this.context.FeatureCustomer.Remove(featureCustomer);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool FeatureCustomerExists(int id)
         {
-            return _context.FeatureCustomer.Any(e => e.IdfeatureCustomer == id);
+            return this.context.FeatureCustomer.Any(e => e.IdfeatureCustomer == id);
         }
     }
 }

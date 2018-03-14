@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.ReportViewModels;
+﻿// <copyright file="ReportsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.ReportViewModels;
+
     public class ReportsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public ReportsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Reports
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Report.ToListAsync());
+            return this.View(await this.context.Report.ToListAsync());
         }
 
         // GET: Reports/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var report = await _context.Report
+            var report = await this.context.Report
                 .SingleOrDefaultAsync(m => m.Idreport == id);
             if (report == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(report);
+            return this.View(report);
         }
 
         // GET: Reports/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Reports/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idreport,Name")] Report report)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(report);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(report);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(report);
+
+            return this.View(report);
         }
 
         // GET: Reports/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var report = await _context.Report.SingleOrDefaultAsync(m => m.Idreport == id);
+            var report = await this.context.Report.SingleOrDefaultAsync(m => m.Idreport == id);
             if (report == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(report);
+
+            return this.View(report);
         }
 
         // POST: Reports/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != report.Idreport)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(report);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(report);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReportExists(report.Idreport))
+                    if (!this.ReportExists(report.Idreport))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(report);
+
+            return this.View(report);
         }
 
         // GET: Reports/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var report = await _context.Report
+            var report = await this.context.Report
                 .SingleOrDefaultAsync(m => m.Idreport == id);
             if (report == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(report);
+            return this.View(report);
         }
 
         // POST: Reports/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var report = await _context.Report.SingleOrDefaultAsync(m => m.Idreport == id);
-            _context.Report.Remove(report);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var report = await this.context.Report.SingleOrDefaultAsync(m => m.Idreport == id);
+            this.context.Report.Remove(report);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool ReportExists(int id)
         {
-            return _context.Report.Any(e => e.Idreport == id);
+            return this.context.Report.Any(e => e.Idreport == id);
         }
     }
 }

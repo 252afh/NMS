@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-NMS-8F567896-E64C-468E-ADBA-522D8C721057</UserSecretsId>
   </PropertyGroup>
@@ -27,12 +28,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="stylecop.json" />
     <Content Remove="wwwroot\js\jquery.tablesorter.combined.js" />
     <Content Remove="wwwroot\js\jquery.tablesorter.combined.min.js" />
     <Content Remove="wwwroot\js\jquery.tablesorter.js" />
     <Content Remove="wwwroot\js\jquery.tablesorter.min.js" />
     <Content Remove="wwwroot\js\jquery.tablesorter.widgets.js" />
     <Content Remove="wwwroot\js\jquery.tablesorter.widgets.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
 
 
@@ -48,8 +54,10 @@
     <PackageReference Include="Moment.js" Version="2.21.0" />
     <PackageReference Include="MySql.Data" Version="6.10.6" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore.Design" Version="6.10.6" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.4.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta006" />
   </ItemGroup>
 
   <ItemGroup>

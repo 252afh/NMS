@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.CarrierCodeExceptionViewModels;
+﻿// <copyright file="CarrierCodeExceptionsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.CarrierCodeExceptionViewModels;
+
     public class CarrierCodeExceptionsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public CarrierCodeExceptionsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: CarrierCodeExceptions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CarrierCodeException.ToListAsync());
+            return this.View(await this.context.CarrierCodeException.ToListAsync());
         }
 
         // GET: CarrierCodeExceptions/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var carrierCodeException = await _context.CarrierCodeException
+            var carrierCodeException = await this.context.CarrierCodeException
                 .SingleOrDefaultAsync(m => m.IdcarrierCodeException == id);
             if (carrierCodeException == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(carrierCodeException);
+            return this.View(carrierCodeException);
         }
 
         // GET: CarrierCodeExceptions/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: CarrierCodeExceptions/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdcarrierCodeException,Priority,Status,FkCarrier,FkCode,FkExceptionLcr")] CarrierCodeException carrierCodeException)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(carrierCodeException);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(carrierCodeException);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(carrierCodeException);
+
+            return this.View(carrierCodeException);
         }
 
         // GET: CarrierCodeExceptions/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var carrierCodeException = await _context.CarrierCodeException.SingleOrDefaultAsync(m => m.IdcarrierCodeException == id);
+            var carrierCodeException = await this.context.CarrierCodeException.SingleOrDefaultAsync(m => m.IdcarrierCodeException == id);
             if (carrierCodeException == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(carrierCodeException);
+
+            return this.View(carrierCodeException);
         }
 
         // POST: CarrierCodeExceptions/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != carrierCodeException.IdcarrierCodeException)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(carrierCodeException);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(carrierCodeException);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CarrierCodeExceptionExists(carrierCodeException.IdcarrierCodeException))
+                    if (!this.CarrierCodeExceptionExists(carrierCodeException.IdcarrierCodeException))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(carrierCodeException);
+
+            return this.View(carrierCodeException);
         }
 
         // GET: CarrierCodeExceptions/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var carrierCodeException = await _context.CarrierCodeException
+            var carrierCodeException = await this.context.CarrierCodeException
                 .SingleOrDefaultAsync(m => m.IdcarrierCodeException == id);
             if (carrierCodeException == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(carrierCodeException);
+            return this.View(carrierCodeException);
         }
 
         // POST: CarrierCodeExceptions/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var carrierCodeException = await _context.CarrierCodeException.SingleOrDefaultAsync(m => m.IdcarrierCodeException == id);
-            _context.CarrierCodeException.Remove(carrierCodeException);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var carrierCodeException = await this.context.CarrierCodeException.SingleOrDefaultAsync(m => m.IdcarrierCodeException == id);
+            this.context.CarrierCodeException.Remove(carrierCodeException);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool CarrierCodeExceptionExists(int id)
         {
-            return _context.CarrierCodeException.Any(e => e.IdcarrierCodeException == id);
+            return this.context.CarrierCodeException.Any(e => e.IdcarrierCodeException == id);
         }
     }
 }

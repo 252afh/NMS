@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.MailboxViewModels;
+﻿// <copyright file="MailboxesController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.MailboxViewModels;
+
     public class MailboxesController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public MailboxesController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Mailboxes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Mailbox.ToListAsync());
+            return this.View(await this.context.Mailbox.ToListAsync());
         }
 
         // GET: Mailboxes/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var mailbox = await _context.Mailbox
+            var mailbox = await this.context.Mailbox
                 .SingleOrDefaultAsync(m => m.Idmailbox == id);
             if (mailbox == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(mailbox);
+            return this.View(mailbox);
         }
 
         // GET: Mailboxes/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Mailboxes/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idmailbox,Pin,Name,Email,SendEmail,DeleteOpt,Attachment,Audiomessage,Audioname,Audiosize,FkNumber,FkCustomer,Fax")] Mailbox mailbox)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(mailbox);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(mailbox);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(mailbox);
+
+            return this.View(mailbox);
         }
 
         // GET: Mailboxes/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var mailbox = await _context.Mailbox.SingleOrDefaultAsync(m => m.Idmailbox == id);
+            var mailbox = await this.context.Mailbox.SingleOrDefaultAsync(m => m.Idmailbox == id);
             if (mailbox == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(mailbox);
+
+            return this.View(mailbox);
         }
 
         // POST: Mailboxes/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != mailbox.Idmailbox)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(mailbox);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(mailbox);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MailboxExists(mailbox.Idmailbox))
+                    if (!this.MailboxExists(mailbox.Idmailbox))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(mailbox);
+
+            return this.View(mailbox);
         }
 
         // GET: Mailboxes/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var mailbox = await _context.Mailbox
+            var mailbox = await this.context.Mailbox
                 .SingleOrDefaultAsync(m => m.Idmailbox == id);
             if (mailbox == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(mailbox);
+            return this.View(mailbox);
         }
 
         // POST: Mailboxes/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var mailbox = await _context.Mailbox.SingleOrDefaultAsync(m => m.Idmailbox == id);
-            _context.Mailbox.Remove(mailbox);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var mailbox = await this.context.Mailbox.SingleOrDefaultAsync(m => m.Idmailbox == id);
+            this.context.Mailbox.Remove(mailbox);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool MailboxExists(int id)
         {
-            return _context.Mailbox.Any(e => e.Idmailbox == id);
+            return this.context.Mailbox.Any(e => e.Idmailbox == id);
         }
     }
 }

@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.ExceptionLcrViewModels;
+﻿// <copyright file="ExceptionlcrsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.ExceptionLcrViewModels;
+
     public class ExceptionlcrsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public ExceptionlcrsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Exceptionlcrs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Exceptionlcr.ToListAsync());
+            return this.View(await this.context.Exceptionlcr.ToListAsync());
         }
 
         // GET: Exceptionlcrs/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var exceptionlcr = await _context.Exceptionlcr
+            var exceptionlcr = await this.context.Exceptionlcr
                 .SingleOrDefaultAsync(m => m.IdexceptionLcr == id);
             if (exceptionlcr == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(exceptionlcr);
+            return this.View(exceptionlcr);
         }
 
         // GET: Exceptionlcrs/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Exceptionlcrs/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdexceptionLcr,Name,Description")] Exceptionlcr exceptionlcr)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(exceptionlcr);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(exceptionlcr);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(exceptionlcr);
+
+            return this.View(exceptionlcr);
         }
 
         // GET: Exceptionlcrs/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var exceptionlcr = await _context.Exceptionlcr.SingleOrDefaultAsync(m => m.IdexceptionLcr == id);
+            var exceptionlcr = await this.context.Exceptionlcr.SingleOrDefaultAsync(m => m.IdexceptionLcr == id);
             if (exceptionlcr == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(exceptionlcr);
+
+            return this.View(exceptionlcr);
         }
 
         // POST: Exceptionlcrs/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != exceptionlcr.IdexceptionLcr)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(exceptionlcr);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(exceptionlcr);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ExceptionlcrExists(exceptionlcr.IdexceptionLcr))
+                    if (!this.ExceptionlcrExists(exceptionlcr.IdexceptionLcr))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(exceptionlcr);
+
+            return this.View(exceptionlcr);
         }
 
         // GET: Exceptionlcrs/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var exceptionlcr = await _context.Exceptionlcr
+            var exceptionlcr = await this.context.Exceptionlcr
                 .SingleOrDefaultAsync(m => m.IdexceptionLcr == id);
             if (exceptionlcr == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(exceptionlcr);
+            return this.View(exceptionlcr);
         }
 
         // POST: Exceptionlcrs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var exceptionlcr = await _context.Exceptionlcr.SingleOrDefaultAsync(m => m.IdexceptionLcr == id);
-            _context.Exceptionlcr.Remove(exceptionlcr);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var exceptionlcr = await this.context.Exceptionlcr.SingleOrDefaultAsync(m => m.IdexceptionLcr == id);
+            this.context.Exceptionlcr.Remove(exceptionlcr);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool ExceptionlcrExists(int id)
         {
-            return _context.Exceptionlcr.Any(e => e.IdexceptionLcr == id);
+            return this.context.Exceptionlcr.Any(e => e.IdexceptionLcr == id);
         }
     }
 }

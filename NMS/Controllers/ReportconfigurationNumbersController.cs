@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.ReportConfigurationNumberViewModels;
+﻿// <copyright file="ReportconfigurationNumbersController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.ReportConfigurationNumberViewModels;
+
     public class ReportconfigurationNumbersController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public ReportconfigurationNumbersController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: ReportconfigurationNumbers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ReportconfigurationNumber.ToListAsync());
+            return this.View(await this.context.ReportconfigurationNumber.ToListAsync());
         }
 
         // GET: ReportconfigurationNumbers/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var reportconfigurationNumber = await _context.ReportconfigurationNumber
+            var reportconfigurationNumber = await this.context.ReportconfigurationNumber
                 .SingleOrDefaultAsync(m => m.IdreportconfigurationNumber == id);
             if (reportconfigurationNumber == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(reportconfigurationNumber);
+            return this.View(reportconfigurationNumber);
         }
 
         // GET: ReportconfigurationNumbers/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: ReportconfigurationNumbers/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdreportconfigurationNumber,FkReportConfiguration,FkNumber")] ReportconfigurationNumber reportconfigurationNumber)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(reportconfigurationNumber);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(reportconfigurationNumber);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(reportconfigurationNumber);
+
+            return this.View(reportconfigurationNumber);
         }
 
         // GET: ReportconfigurationNumbers/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var reportconfigurationNumber = await _context.ReportconfigurationNumber.SingleOrDefaultAsync(m => m.IdreportconfigurationNumber == id);
+            var reportconfigurationNumber = await this.context.ReportconfigurationNumber.SingleOrDefaultAsync(m => m.IdreportconfigurationNumber == id);
             if (reportconfigurationNumber == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(reportconfigurationNumber);
+
+            return this.View(reportconfigurationNumber);
         }
 
         // POST: ReportconfigurationNumbers/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != reportconfigurationNumber.IdreportconfigurationNumber)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(reportconfigurationNumber);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(reportconfigurationNumber);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReportconfigurationNumberExists(reportconfigurationNumber.IdreportconfigurationNumber))
+                    if (!this.ReportconfigurationNumberExists(reportconfigurationNumber.IdreportconfigurationNumber))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(reportconfigurationNumber);
+
+            return this.View(reportconfigurationNumber);
         }
 
         // GET: ReportconfigurationNumbers/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var reportconfigurationNumber = await _context.ReportconfigurationNumber
+            var reportconfigurationNumber = await this.context.ReportconfigurationNumber
                 .SingleOrDefaultAsync(m => m.IdreportconfigurationNumber == id);
             if (reportconfigurationNumber == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(reportconfigurationNumber);
+            return this.View(reportconfigurationNumber);
         }
 
         // POST: ReportconfigurationNumbers/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reportconfigurationNumber = await _context.ReportconfigurationNumber.SingleOrDefaultAsync(m => m.IdreportconfigurationNumber == id);
-            _context.ReportconfigurationNumber.Remove(reportconfigurationNumber);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var reportconfigurationNumber = await this.context.ReportconfigurationNumber.SingleOrDefaultAsync(m => m.IdreportconfigurationNumber == id);
+            this.context.ReportconfigurationNumber.Remove(reportconfigurationNumber);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool ReportconfigurationNumberExists(int id)
         {
-            return _context.ReportconfigurationNumber.Any(e => e.IdreportconfigurationNumber == id);
+            return this.context.ReportconfigurationNumber.Any(e => e.IdreportconfigurationNumber == id);
         }
     }
 }

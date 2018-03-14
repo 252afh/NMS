@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.NumberGroupViewModels;
+﻿// <copyright file="NumbergroupsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.NumberGroupViewModels;
+
     public class NumbergroupsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public NumbergroupsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Numbergroups
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Numbergroup.ToListAsync());
+            return this.View(await this.context.Numbergroup.ToListAsync());
         }
 
         // GET: Numbergroups/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var numbergroup = await _context.Numbergroup
+            var numbergroup = await this.context.Numbergroup
                 .SingleOrDefaultAsync(m => m.Idgroup == id);
             if (numbergroup == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(numbergroup);
+            return this.View(numbergroup);
         }
 
         // GET: Numbergroups/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Numbergroups/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idgroup,Name,Description,FkCustomer")] Numbergroup numbergroup)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(numbergroup);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(numbergroup);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(numbergroup);
+
+            return this.View(numbergroup);
         }
 
         // GET: Numbergroups/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var numbergroup = await _context.Numbergroup.SingleOrDefaultAsync(m => m.Idgroup == id);
+            var numbergroup = await this.context.Numbergroup.SingleOrDefaultAsync(m => m.Idgroup == id);
             if (numbergroup == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(numbergroup);
+
+            return this.View(numbergroup);
         }
 
         // POST: Numbergroups/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != numbergroup.Idgroup)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(numbergroup);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(numbergroup);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NumbergroupExists(numbergroup.Idgroup))
+                    if (!this.NumbergroupExists(numbergroup.Idgroup))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(numbergroup);
+
+            return this.View(numbergroup);
         }
 
         // GET: Numbergroups/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var numbergroup = await _context.Numbergroup
+            var numbergroup = await this.context.Numbergroup
                 .SingleOrDefaultAsync(m => m.Idgroup == id);
             if (numbergroup == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(numbergroup);
+            return this.View(numbergroup);
         }
 
         // POST: Numbergroups/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var numbergroup = await _context.Numbergroup.SingleOrDefaultAsync(m => m.Idgroup == id);
-            _context.Numbergroup.Remove(numbergroup);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var numbergroup = await this.context.Numbergroup.SingleOrDefaultAsync(m => m.Idgroup == id);
+            this.context.Numbergroup.Remove(numbergroup);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool NumbergroupExists(int id)
         {
-            return _context.Numbergroup.Any(e => e.Idgroup == id);
+            return this.context.Numbergroup.Any(e => e.Idgroup == id);
         }
     }
 }

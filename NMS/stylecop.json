@@ -1,0 +1,13 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "252afh",
+      "copyrightText": "  Copyright © {companyName} {year}. All rights reserved.",
+      "documentationCulture": "en-GB",
+      "variables": {
+        "year": "2018"
+      }
+    }
+  }
+}

@@ -1,25 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using NMS.Data;
-using NMS.Models;
-using NMS.Services;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿// <copyright file="Startup.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS
 {
+    using System;
+    using System.Text;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using NLog.Web;
+    using NMS.Data;
+    using NMS.Models;
+    using NMS.Services;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -28,10 +30,10 @@ namespace NMS
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("MySqlConnection")));
+                options.UseMySql(this.Configuration.GetConnectionString("MySqlConnection")));
 
             services.AddDbContext<nmsdbContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("MySqlConnection")));
+                options.UseMySql(this.Configuration.GetConnectionString("MySqlConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -76,6 +78,12 @@ namespace NMS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            env.ConfigureNLog("nlog.config");
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            app.AddNLogWeb();
+
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();

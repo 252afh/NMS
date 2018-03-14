@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.UserProfilesViewModels;
+﻿// <copyright file="UserProfilesController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.UserProfilesViewModels;
+
     public class UserProfilesController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public UserProfilesController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: UserProfiles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UserProfiles.ToListAsync());
+            return this.View(await this.context.UserProfiles.ToListAsync());
         }
 
         // GET: UserProfiles/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var userProfiles = await _context.UserProfiles
+            var userProfiles = await this.context.UserProfiles
                 .SingleOrDefaultAsync(m => m.Iduser == id);
             if (userProfiles == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(userProfiles);
+            return this.View(userProfiles);
         }
 
         // GET: UserProfiles/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: UserProfiles/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Iduser,Idcustomer,Name,LastName,Active")] UserProfiles userProfiles)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(userProfiles);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(userProfiles);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(userProfiles);
+
+            return this.View(userProfiles);
         }
 
         // GET: UserProfiles/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var userProfiles = await _context.UserProfiles.SingleOrDefaultAsync(m => m.Iduser == id);
+            var userProfiles = await this.context.UserProfiles.SingleOrDefaultAsync(m => m.Iduser == id);
             if (userProfiles == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(userProfiles);
+
+            return this.View(userProfiles);
         }
 
         // POST: UserProfiles/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != userProfiles.Iduser)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(userProfiles);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(userProfiles);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserProfilesExists(userProfiles.Iduser))
+                    if (!this.UserProfilesExists(userProfiles.Iduser))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(userProfiles);
+
+            return this.View(userProfiles);
         }
 
         // GET: UserProfiles/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var userProfiles = await _context.UserProfiles
+            var userProfiles = await this.context.UserProfiles
                 .SingleOrDefaultAsync(m => m.Iduser == id);
             if (userProfiles == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(userProfiles);
+            return this.View(userProfiles);
         }
 
         // POST: UserProfiles/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userProfiles = await _context.UserProfiles.SingleOrDefaultAsync(m => m.Iduser == id);
-            _context.UserProfiles.Remove(userProfiles);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var userProfiles = await this.context.UserProfiles.SingleOrDefaultAsync(m => m.Iduser == id);
+            this.context.UserProfiles.Remove(userProfiles);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool UserProfilesExists(int id)
         {
-            return _context.UserProfiles.Any(e => e.Iduser == id);
+            return this.context.UserProfiles.Any(e => e.Iduser == id);
         }
     }
 }

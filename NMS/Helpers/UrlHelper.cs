@@ -1,12 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NMS.Controllers;
+// <copyright file="UrlHelper.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
-namespace Microsoft.AspNetCore.Mvc
+namespace NMS.Helpers
 {
-    public static class UrlHelperExtensions
+    using Microsoft.AspNetCore.Mvc;
+    using NMS.Controllers;
+
+    public static class UrlHelper
     {
         public static string EmailConfirmationLink(this IUrlHelper urlHelper, string userId, string code, string scheme)
         {

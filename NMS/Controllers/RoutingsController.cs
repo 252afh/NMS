@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.RoutingViewModels;
+﻿// <copyright file="RoutingsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.RoutingViewModels;
+
     public class RoutingsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public RoutingsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Routings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Routing.ToListAsync());
+            return this.View(await this.context.Routing.ToListAsync());
         }
 
         // GET: Routings/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var routing = await _context.Routing
+            var routing = await this.context.Routing
                 .SingleOrDefaultAsync(m => m.Idrouting == id);
             if (routing == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(routing);
+            return this.View(routing);
         }
 
         // GET: Routings/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Routings/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idrouting,Priority,RingingTime,FkContact,FkSite,Active,FkRoutingGroup,HuntBusy,FkAnnouncement,FkIvr,FkMailbox,VoicemailMain")] Routing routing)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(routing);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(routing);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(routing);
+
+            return this.View(routing);
         }
 
         // GET: Routings/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var routing = await _context.Routing.SingleOrDefaultAsync(m => m.Idrouting == id);
+            var routing = await this.context.Routing.SingleOrDefaultAsync(m => m.Idrouting == id);
             if (routing == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(routing);
+
+            return this.View(routing);
         }
 
         // POST: Routings/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != routing.Idrouting)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(routing);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(routing);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoutingExists(routing.Idrouting))
+                    if (!this.RoutingExists(routing.Idrouting))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(routing);
+
+            return this.View(routing);
         }
 
         // GET: Routings/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var routing = await _context.Routing
+            var routing = await this.context.Routing
                 .SingleOrDefaultAsync(m => m.Idrouting == id);
             if (routing == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(routing);
+            return this.View(routing);
         }
 
         // POST: Routings/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var routing = await _context.Routing.SingleOrDefaultAsync(m => m.Idrouting == id);
-            _context.Routing.Remove(routing);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var routing = await this.context.Routing.SingleOrDefaultAsync(m => m.Idrouting == id);
+            this.context.Routing.Remove(routing);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool RoutingExists(int id)
         {
-            return _context.Routing.Any(e => e.Idrouting == id);
+            return this.context.Routing.Any(e => e.Idrouting == id);
         }
     }
 }

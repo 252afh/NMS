@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.CarrierNumberExceptionViewModels;
+﻿// <copyright file="CarrierNumberExceptionsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.CarrierNumberExceptionViewModels;
+
     public class CarrierNumberExceptionsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public CarrierNumberExceptionsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: CarrierNumberExceptions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CarrierNumberException.ToListAsync());
+            return this.View(await this.context.CarrierNumberException.ToListAsync());
         }
 
         // GET: CarrierNumberExceptions/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var carrierNumberException = await _context.CarrierNumberException
+            var carrierNumberException = await this.context.CarrierNumberException
                 .SingleOrDefaultAsync(m => m.IdcarrierNumberException == id);
             if (carrierNumberException == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(carrierNumberException);
+            return this.View(carrierNumberException);
         }
 
         // GET: CarrierNumberExceptions/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: CarrierNumberExceptions/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdcarrierNumberException,Priority,Status,FkCarrier,FkExceptionNumber,FkExceptionLcr")] CarrierNumberException carrierNumberException)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(carrierNumberException);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(carrierNumberException);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(carrierNumberException);
+
+            return this.View(carrierNumberException);
         }
 
         // GET: CarrierNumberExceptions/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var carrierNumberException = await _context.CarrierNumberException.SingleOrDefaultAsync(m => m.IdcarrierNumberException == id);
+            var carrierNumberException = await this.context.CarrierNumberException.SingleOrDefaultAsync(m => m.IdcarrierNumberException == id);
             if (carrierNumberException == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(carrierNumberException);
+
+            return this.View(carrierNumberException);
         }
 
         // POST: CarrierNumberExceptions/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != carrierNumberException.IdcarrierNumberException)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(carrierNumberException);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(carrierNumberException);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CarrierNumberExceptionExists(carrierNumberException.IdcarrierNumberException))
+                    if (!this.CarrierNumberExceptionExists(carrierNumberException.IdcarrierNumberException))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(carrierNumberException);
+
+            return this.View(carrierNumberException);
         }
 
         // GET: CarrierNumberExceptions/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var carrierNumberException = await _context.CarrierNumberException
+            var carrierNumberException = await this.context.CarrierNumberException
                 .SingleOrDefaultAsync(m => m.IdcarrierNumberException == id);
             if (carrierNumberException == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(carrierNumberException);
+            return this.View(carrierNumberException);
         }
 
         // POST: CarrierNumberExceptions/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var carrierNumberException = await _context.CarrierNumberException.SingleOrDefaultAsync(m => m.IdcarrierNumberException == id);
-            _context.CarrierNumberException.Remove(carrierNumberException);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var carrierNumberException = await this.context.CarrierNumberException.SingleOrDefaultAsync(m => m.IdcarrierNumberException == id);
+            this.context.CarrierNumberException.Remove(carrierNumberException);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool CarrierNumberExceptionExists(int id)
         {
-            return _context.CarrierNumberException.Any(e => e.IdcarrierNumberException == id);
+            return this.context.CarrierNumberException.Any(e => e.IdcarrierNumberException == id);
         }
     }
 }

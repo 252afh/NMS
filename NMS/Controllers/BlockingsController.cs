@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.BlockingViewModels;
+﻿// <copyright file="BlockingsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Models;
+    using Models.BlockingViewModels;
+
     public class BlockingsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public BlockingsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Blockings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Blocking.ToListAsync());
+            return this.View(await this.context.Blocking.ToListAsync());
         }
 
         // GET: Blockings/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var blocking = await _context.Blocking
+            var blocking = await this.context.Blocking
                 .SingleOrDefaultAsync(m => m.Idblocking == id);
             if (blocking == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(blocking);
+            return this.View(blocking);
         }
 
         // GET: Blockings/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Blockings/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idblocking,Code,NormalisedCode,Description,FkCustomer")] Blocking blocking)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(blocking);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(blocking);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(blocking);
+
+            return this.View(blocking);
         }
 
         // GET: Blockings/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var blocking = await _context.Blocking.SingleOrDefaultAsync(m => m.Idblocking == id);
+            var blocking = await this.context.Blocking.SingleOrDefaultAsync(m => m.Idblocking == id);
             if (blocking == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(blocking);
+
+            return this.View(blocking);
         }
 
         // POST: Blockings/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != blocking.Idblocking)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(blocking);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(blocking);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlockingExists(blocking.Idblocking))
+                    if (!this.BlockingExists(blocking.Idblocking))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(blocking);
+
+            return this.View(blocking);
         }
 
         // GET: Blockings/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var blocking = await _context.Blocking
+            var blocking = await this.context.Blocking
                 .SingleOrDefaultAsync(m => m.Idblocking == id);
             if (blocking == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(blocking);
+            return this.View(blocking);
         }
 
         // POST: Blockings/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var blocking = await _context.Blocking.SingleOrDefaultAsync(m => m.Idblocking == id);
-            _context.Blocking.Remove(blocking);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var blocking = await this.context.Blocking.SingleOrDefaultAsync(m => m.Idblocking == id);
+            this.context.Blocking.Remove(blocking);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool BlockingExists(int id)
         {
-            return _context.Blocking.Any(e => e.Idblocking == id);
+            return this.context.Blocking.Any(e => e.Idblocking == id);
         }
     }
 }

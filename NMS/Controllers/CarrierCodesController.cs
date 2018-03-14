@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.CarrierCodeViewModels;
+﻿// <copyright file="CarrierCodesController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.CarrierCodeViewModels;
+
     public class CarrierCodesController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public CarrierCodesController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: CarrierCodes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CarrierCode.ToListAsync());
+            return this.View(await this.context.CarrierCode.ToListAsync());
         }
 
         // GET: CarrierCodes/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var carrierCode = await _context.CarrierCode
+            var carrierCode = await this.context.CarrierCode
                 .SingleOrDefaultAsync(m => m.IdcarrierCode == id);
             if (carrierCode == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(carrierCode);
+            return this.View(carrierCode);
         }
 
         // GET: CarrierCodes/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: CarrierCodes/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdcarrierCode,Priority,Status,FkCarrier,FkCode,FkLcr")] CarrierCode carrierCode)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(carrierCode);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(carrierCode);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(carrierCode);
+
+            return this.View(carrierCode);
         }
 
         // GET: CarrierCodes/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var carrierCode = await _context.CarrierCode.SingleOrDefaultAsync(m => m.IdcarrierCode == id);
+            var carrierCode = await this.context.CarrierCode.SingleOrDefaultAsync(m => m.IdcarrierCode == id);
             if (carrierCode == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(carrierCode);
+
+            return this.View(carrierCode);
         }
 
         // POST: CarrierCodes/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != carrierCode.IdcarrierCode)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(carrierCode);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(carrierCode);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CarrierCodeExists(carrierCode.IdcarrierCode))
+                    if (!this.CarrierCodeExists(carrierCode.IdcarrierCode))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(carrierCode);
+
+            return this.View(carrierCode);
         }
 
         // GET: CarrierCodes/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var carrierCode = await _context.CarrierCode
+            var carrierCode = await this.context.CarrierCode
                 .SingleOrDefaultAsync(m => m.IdcarrierCode == id);
             if (carrierCode == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(carrierCode);
+            return this.View(carrierCode);
         }
 
         // POST: CarrierCodes/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var carrierCode = await _context.CarrierCode.SingleOrDefaultAsync(m => m.IdcarrierCode == id);
-            _context.CarrierCode.Remove(carrierCode);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var carrierCode = await this.context.CarrierCode.SingleOrDefaultAsync(m => m.IdcarrierCode == id);
+            this.context.CarrierCode.Remove(carrierCode);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool CarrierCodeExists(int id)
         {
-            return _context.CarrierCode.Any(e => e.IdcarrierCode == id);
+            return this.context.CarrierCode.Any(e => e.IdcarrierCode == id);
         }
     }
 }

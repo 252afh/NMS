@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.ExceptionNumberViewModels;
+﻿// <copyright file="ExceptionnumbersController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.ExceptionNumberViewModels;
+
     public class ExceptionnumbersController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public ExceptionnumbersController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Exceptionnumbers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Exceptionnumber.ToListAsync());
+            return this.View(await this.context.Exceptionnumber.ToListAsync());
         }
 
         // GET: Exceptionnumbers/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var exceptionnumber = await _context.Exceptionnumber
+            var exceptionnumber = await this.context.Exceptionnumber
                 .SingleOrDefaultAsync(m => m.IdexceptionNumber == id);
             if (exceptionnumber == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(exceptionnumber);
+            return this.View(exceptionnumber);
         }
 
         // GET: Exceptionnumbers/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Exceptionnumbers/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdexceptionNumber,Number,Description")] Exceptionnumber exceptionnumber)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(exceptionnumber);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(exceptionnumber);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(exceptionnumber);
+
+            return this.View(exceptionnumber);
         }
 
         // GET: Exceptionnumbers/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var exceptionnumber = await _context.Exceptionnumber.SingleOrDefaultAsync(m => m.IdexceptionNumber == id);
+            var exceptionnumber = await this.context.Exceptionnumber.SingleOrDefaultAsync(m => m.IdexceptionNumber == id);
             if (exceptionnumber == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(exceptionnumber);
+
+            return this.View(exceptionnumber);
         }
 
         // POST: Exceptionnumbers/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != exceptionnumber.IdexceptionNumber)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(exceptionnumber);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(exceptionnumber);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ExceptionnumberExists(exceptionnumber.IdexceptionNumber))
+                    if (!this.ExceptionnumberExists(exceptionnumber.IdexceptionNumber))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(exceptionnumber);
+
+            return this.View(exceptionnumber);
         }
 
         // GET: Exceptionnumbers/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var exceptionnumber = await _context.Exceptionnumber
+            var exceptionnumber = await this.context.Exceptionnumber
                 .SingleOrDefaultAsync(m => m.IdexceptionNumber == id);
             if (exceptionnumber == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(exceptionnumber);
+            return this.View(exceptionnumber);
         }
 
         // POST: Exceptionnumbers/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var exceptionnumber = await _context.Exceptionnumber.SingleOrDefaultAsync(m => m.IdexceptionNumber == id);
-            _context.Exceptionnumber.Remove(exceptionnumber);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var exceptionnumber = await this.context.Exceptionnumber.SingleOrDefaultAsync(m => m.IdexceptionNumber == id);
+            this.context.Exceptionnumber.Remove(exceptionnumber);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool ExceptionnumberExists(int id)
         {
-            return _context.Exceptionnumber.Any(e => e.IdexceptionNumber == id);
+            return this.context.Exceptionnumber.Any(e => e.IdexceptionNumber == id);
         }
     }
 }

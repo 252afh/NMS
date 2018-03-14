@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.DayDetailsViewModels;
+﻿// <copyright file="DaydetailsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.DayDetailsViewModels;
+
     public class DaydetailsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public DaydetailsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Daydetails
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Daydetails.ToListAsync());
+            return this.View(await this.context.Daydetails.ToListAsync());
         }
 
         // GET: Daydetails/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var daydetails = await _context.Daydetails
+            var daydetails = await this.context.Daydetails
                 .SingleOrDefaultAsync(m => m.IddayDetails == id);
             if (daydetails == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(daydetails);
+            return this.View(daydetails);
         }
 
         // GET: Daydetails/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Daydetails/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IddayDetails,Day,TimeFrom,TimeTo,Status,FkPeriod")] Daydetails daydetails)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(daydetails);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(daydetails);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(daydetails);
+
+            return this.View(daydetails);
         }
 
         // GET: Daydetails/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var daydetails = await _context.Daydetails.SingleOrDefaultAsync(m => m.IddayDetails == id);
+            var daydetails = await this.context.Daydetails.SingleOrDefaultAsync(m => m.IddayDetails == id);
             if (daydetails == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(daydetails);
+
+            return this.View(daydetails);
         }
 
         // POST: Daydetails/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != daydetails.IddayDetails)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(daydetails);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(daydetails);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DaydetailsExists(daydetails.IddayDetails))
+                    if (!this.DaydetailsExists(daydetails.IddayDetails))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(daydetails);
+
+            return this.View(daydetails);
         }
 
         // GET: Daydetails/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var daydetails = await _context.Daydetails
+            var daydetails = await this.context.Daydetails
                 .SingleOrDefaultAsync(m => m.IddayDetails == id);
             if (daydetails == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(daydetails);
+            return this.View(daydetails);
         }
 
         // POST: Daydetails/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var daydetails = await _context.Daydetails.SingleOrDefaultAsync(m => m.IddayDetails == id);
-            _context.Daydetails.Remove(daydetails);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var daydetails = await this.context.Daydetails.SingleOrDefaultAsync(m => m.IddayDetails == id);
+            this.context.Daydetails.Remove(daydetails);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool DaydetailsExists(int id)
         {
-            return _context.Daydetails.Any(e => e.IddayDetails == id);
+            return this.context.Daydetails.Any(e => e.IddayDetails == id);
         }
     }
 }

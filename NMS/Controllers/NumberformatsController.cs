@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NMS.Models;
-using NMS.Models.NumberFormatViewModels;
+﻿// <copyright file="NumberformatsController.cs" company="252afh">
+//   Copyright © 252afh 2018. All rights reserved.
+// </copyright>
 
 namespace NMS.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using NMS.Models;
+    using NMS.Models.NumberFormatViewModels;
+
     public class NumberformatsController : Controller
     {
-        private readonly nmsdbContext _context;
+        private readonly nmsdbContext context;
 
         public NumberformatsController(nmsdbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: Numberformats
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Numberformat.ToListAsync());
+            return this.View(await this.context.Numberformat.ToListAsync());
         }
 
         // GET: Numberformats/Details/5
@@ -30,23 +31,23 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var numberformat = await _context.Numberformat
+            var numberformat = await this.context.Numberformat
                 .SingleOrDefaultAsync(m => m.IdnumberFormat == id);
             if (numberformat == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(numberformat);
+            return this.View(numberformat);
         }
 
         // GET: Numberformats/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Numberformats/Create
@@ -56,13 +57,14 @@ namespace NMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdnumberFormat,NumberFormat,Description,Name")] Numberformat numberformat)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(numberformat);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.context.Add(numberformat);
+                await this.context.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(numberformat);
+
+            return this.View(numberformat);
         }
 
         // GET: Numberformats/Edit/5
@@ -70,15 +72,16 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var numberformat = await _context.Numberformat.SingleOrDefaultAsync(m => m.IdnumberFormat == id);
+            var numberformat = await this.context.Numberformat.SingleOrDefaultAsync(m => m.IdnumberFormat == id);
             if (numberformat == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(numberformat);
+
+            return this.View(numberformat);
         }
 
         // POST: Numberformats/Edit/5
@@ -90,30 +93,32 @@ namespace NMS.Controllers
         {
             if (id != numberformat.IdnumberFormat)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(numberformat);
-                    await _context.SaveChangesAsync();
+                    this.context.Update(numberformat);
+                    await this.context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!NumberformatExists(numberformat.IdnumberFormat))
+                    if (!this.NumberformatExists(numberformat.IdnumberFormat))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(numberformat);
+
+            return this.View(numberformat);
         }
 
         // GET: Numberformats/Delete/5
@@ -121,33 +126,34 @@ namespace NMS.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var numberformat = await _context.Numberformat
+            var numberformat = await this.context.Numberformat
                 .SingleOrDefaultAsync(m => m.IdnumberFormat == id);
             if (numberformat == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(numberformat);
+            return this.View(numberformat);
         }
 
         // POST: Numberformats/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var numberformat = await _context.Numberformat.SingleOrDefaultAsync(m => m.IdnumberFormat == id);
-            _context.Numberformat.Remove(numberformat);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var numberformat = await this.context.Numberformat.SingleOrDefaultAsync(m => m.IdnumberFormat == id);
+            this.context.Numberformat.Remove(numberformat);
+            await this.context.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool NumberformatExists(int id)
         {
-            return _context.Numberformat.Any(e => e.IdnumberFormat == id);
+            return this.context.Numberformat.Any(e => e.IdnumberFormat == id);
         }
     }
 }
