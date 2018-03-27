@@ -13,9 +13,9 @@ namespace NMS.Controllers
 
     public class ReportconfigurationNumbersController : Controller
     {
-        private readonly nmsdbContext context;
+        private readonly NmsdbContext context;
 
-        public ReportconfigurationNumbersController(nmsdbContext context)
+        public ReportconfigurationNumbersController(NmsdbContext context)
         {
             this.context = context;
         }
@@ -51,7 +51,7 @@ namespace NMS.Controllers
         }
 
         // POST: ReportconfigurationNumbers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -85,7 +85,7 @@ namespace NMS.Controllers
         }
 
         // POST: ReportconfigurationNumbers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

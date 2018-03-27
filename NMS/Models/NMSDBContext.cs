@@ -1,91 +1,249 @@
-﻿// <copyright file="nmsdbContext.cs" company="252afh">
+﻿// <copyright file="NmsdbContext.cs" company="252afh">
 //   Copyright © 252afh 2018. All rights reserved.
 // </copyright>
 
 namespace NMS.Models
 {
+    using AnnouncementViewModels;
+    using BarringViewModels;
+    using BlockingViewModels;
+    using CarrierCodeExceptionViewModels;
+    using CarrierCodeViewModels;
+    using CarrierNumberExceptionViewModels;
+    using CarrierViewModels;
+    using CodeViewModels;
+    using ContactViewModels;
+    using CustomerViewModels;
+    using DayDetailsViewModels;
+    using ExceptionLcrViewModels;
+    using ExceptionNumberViewModels;
+    using FeatureCustomerViewModels;
+    using FeatureViewModels;
+    using GroupTemplateViewModels;
+    using IvrActionViewModels;
+    using IvrViewModels;
+    using LcrViewModels;
+    using LogViewModels;
+    using MailboxViewModels;
     using Microsoft.EntityFrameworkCore;
-    using NMS.Models.AnnouncementViewModels;
-    using NMS.Models.BarringViewModels;
-    using NMS.Models.BlockingViewModels;
-    using NMS.Models.CarrierCodeExceptionViewModels;
-    using NMS.Models.CarrierCodeViewModels;
-    using NMS.Models.CarrierNumberExceptionViewModels;
-    using NMS.Models.CarrierViewModels;
-    using NMS.Models.CodeViewModels;
-    using NMS.Models.ContactViewModels;
-    using NMS.Models.CustomerViewModels;
-    using NMS.Models.DayDetailsViewModels;
-    using NMS.Models.ExceptionLcrViewModels;
-    using NMS.Models.ExceptionNumberViewModels;
-    using NMS.Models.FeatureCustomerViewModels;
-    using NMS.Models.FeatureViewModels;
-    using NMS.Models.GroupTemplateViewModels;
-    using NMS.Models.IvrActionViewModels;
-    using NMS.Models.IvrViewModels;
-    using NMS.Models.LcrViewModels;
-    using NMS.Models.LogViewModels;
-    using NMS.Models.MailboxViewModels;
-    using NMS.Models.NumberFormatViewModels;
-    using NMS.Models.NumberGroupViewModels;
-    using NMS.Models.NumberTemplateViewModels;
-    using NMS.Models.NumberViewModels;
-    using NMS.Models.PeriodViewModels;
-    using NMS.Models.ReportConfigurationNumberViewModels;
-    using NMS.Models.ReportConfigurationViewModels;
-    using NMS.Models.ReportCustomerViewModels;
-    using NMS.Models.ReportViewModels;
-    using NMS.Models.RoutingGroupViewModels;
-    using NMS.Models.RoutingViewModels;
-    using NMS.Models.SiteViewModels;
-    using NMS.Models.TemplateViewModels;
-    using NMS.Models.UserProfilesViewModels;
-    using NMS.Models.VoiceMessagesViewModels;
+    using NumberFormatViewModels;
+    using NumberGroupViewModels;
+    using NumberTemplateViewModels;
+    using NumberViewModels;
+    using PeriodViewModels;
+    using ReportConfigurationNumberViewModels;
+    using ReportConfigurationViewModels;
+    using ReportCustomerViewModels;
+    using ReportViewModels;
+    using RoutingGroupViewModels;
+    using RoutingViewModels;
+    using SiteViewModels;
+    using TemplateViewModels;
+    using UserProfilesViewModels;
+    using VoiceMessagesViewModels;
 
-    public partial class nmsdbContext : DbContext
+    /// <summary>
+    /// A context for dependency injection of the nms database
+    /// </summary>
+    public partial class NmsdbContext : DbContext
     {
-        public virtual DbSet<Announcement> Announcement { get; set; }
-        public virtual DbSet<Barring> Barring { get; set; }
-        public virtual DbSet<Blocking> Blocking { get; set; }
-        public virtual DbSet<Carrier> Carrier { get; set; }
-        public virtual DbSet<CarrierCode> CarrierCode { get; set; }
-        public virtual DbSet<CarrierCodeException> CarrierCodeException { get; set; }
-        public virtual DbSet<CarrierNumberException> CarrierNumberException { get; set; }
-        public virtual DbSet<Code> Code { get; set; }
-        public virtual DbSet<Contact> Contact { get; set; }
-        public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<Daydetails> Daydetails { get; set; }
-        public virtual DbSet<Efmigrationshistory> Efmigrationshistory { get; set; }
-        public virtual DbSet<Exceptionlcr> Exceptionlcr { get; set; }
-        public virtual DbSet<Exceptionnumber> Exceptionnumber { get; set; }
-        public virtual DbSet<Feature> Feature { get; set; }
-        public virtual DbSet<FeatureCustomer> FeatureCustomer { get; set; }
-        public virtual DbSet<GroupTemplate> GroupTemplate { get; set; }
-        public virtual DbSet<Ivr> Ivr { get; set; }
-        public virtual DbSet<Ivraction> Ivraction { get; set; }
-        public virtual DbSet<Lcr> Lcr { get; set; }
-        public virtual DbSet<Log> Log { get; set; }
-        public virtual DbSet<Mailbox> Mailbox { get; set; }
-        public virtual DbSet<Number> Number { get; set; }
-        public virtual DbSet<Numberformat> Numberformat { get; set; }
-        public virtual DbSet<Numbergroup> Numbergroup { get; set; }
-        public virtual DbSet<NumberTemplate> NumberTemplate { get; set; }
-        public virtual DbSet<Period> Period { get; set; }
-        public virtual DbSet<Report> Report { get; set; }
-        public virtual DbSet<Reportconfiguration> Reportconfiguration { get; set; }
-        public virtual DbSet<ReportconfigurationNumber> ReportconfigurationNumber { get; set; }
-        public virtual DbSet<ReportCustomer> ReportCustomer { get; set; }
-        public virtual DbSet<Routing> Routing { get; set; }
-        public virtual DbSet<Routinggroup> Routinggroup { get; set; }
-        public virtual DbSet<Site> Site { get; set; }
-        public virtual DbSet<Template> Template { get; set; }
-        public virtual DbSet<UserProfiles> UserProfiles { get; set; }
-        public virtual DbSet<Voicemessages> Voicemessages { get; set; }
-
-        public nmsdbContext(DbContextOptions<nmsdbContext> options)
+        /// <summary>
+        /// Initialises a new instance of the <see cref="NmsdbContext"/> class
+        /// </summary>
+        /// <param name="options">Database context options</param>
+        public NmsdbContext(DbContextOptions<NmsdbContext> options)
             : base(options)
-        { }
+        {
+        }
 
+        /// <summary>
+        /// Gets or sets an <see cref="Announcement"/>
+        /// </summary>
+        public virtual DbSet<Announcement> Announcement { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="Barring"/>
+        /// </summary>
+        public virtual DbSet<Barring> Barring { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="Blocking"/>
+        /// </summary>
+        public virtual DbSet<Blocking> Blocking { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="Carrier"/>
+        /// </summary>
+        public virtual DbSet<Carrier> Carrier { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="CarrierCode"/>
+        /// </summary>
+        public virtual DbSet<CarrierCode> CarrierCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="CarrierCodeException"/>
+        /// </summary>
+        public virtual DbSet<CarrierCodeException> CarrierCodeException { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="CarrierNumberException"/>
+        /// </summary>
+        public virtual DbSet<CarrierNumberException> CarrierNumberException { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="Code"/>
+        /// </summary>
+        public virtual DbSet<Code> Code { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="Contact"/>
+        /// </summary>
+        public virtual DbSet<Contact> Contact { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="Customer"/>
+        /// </summary>
+        public virtual DbSet<Customer> Customer { get; set; }
+
+        /// <summary>
+        /// Gets or sets a <see cref="Daydetails"/>
+        /// </summary>
+        public virtual DbSet<Daydetails> Daydetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Efmigrationshistory> Efmigrationshistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Exceptionlcr> Exceptionlcr { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Exceptionnumber> Exceptionnumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Feature> Feature { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<FeatureCustomer> FeatureCustomer { get; set; }
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<GroupTemplate> GroupTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Ivr> Ivr { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Ivraction> Ivraction { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Lcr> Lcr { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Log> Log { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Mailbox> Mailbox { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Number> Number { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Numberformat> Numberformat { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Numbergroup> Numbergroup { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<NumberTemplate> NumberTemplate { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Period> Period { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Report> Report { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Reportconfiguration> Reportconfiguration { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<ReportconfigurationNumber> ReportconfigurationNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<ReportCustomer> ReportCustomer { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Routing> Routing { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Routinggroup> Routinggroup { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Site> Site { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Template> Template { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<UserProfiles> UserProfiles { get; set; }
+
+        /// <summary>
+        /// Gets or sets 
+        /// </summary>
+        public virtual DbSet<Voicemessages> Voicemessages { get; set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Announcement>(entity =>

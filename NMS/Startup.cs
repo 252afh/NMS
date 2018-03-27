@@ -32,7 +32,7 @@ namespace NMS
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(this.Configuration.GetConnectionString("MySqlConnection")));
 
-            services.AddDbContext<nmsdbContext>(options =>
+            services.AddDbContext<NmsdbContext>(options =>
                 options.UseMySql(this.Configuration.GetConnectionString("MySqlConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -94,7 +94,7 @@ namespace NMS
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
             app.UseStaticFiles();
 
             app.UseAuthentication();

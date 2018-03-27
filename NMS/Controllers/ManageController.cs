@@ -23,14 +23,14 @@ namespace NMS.Controllers
     [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
+        private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
+        private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
+
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IEmailSender emailSender;
         private readonly ILogger logger;
         private readonly UrlEncoder urlEncoder;
-
-        private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
-        private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
@@ -64,7 +64,7 @@ namespace NMS.Controllers
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = this.StatusMessage
+                StatusMessage = this.StatusMessage,
             };
 
             return this.View(model);
@@ -494,8 +494,6 @@ namespace NMS.Controllers
             return this.View(nameof(this.ShowRecoveryCodes), model);
         }
 
-        #region Helpers
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -543,7 +541,5 @@ namespace NMS.Controllers
             model.SharedKey = this.FormatKey(unformattedKey);
             model.AuthenticatorUri = this.GenerateQrCodeUri(user.Email, unformattedKey);
         }
-
-        #endregion
     }
 }

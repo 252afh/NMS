@@ -7,6 +7,7 @@ namespace NMS.Controllers
     using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Helpers;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -14,7 +15,6 @@ namespace NMS.Controllers
     using Microsoft.Extensions.Logging;
     using Models;
     using Models.AccountViewModels;
-    using Helpers;
     using Services;
 
     /// <summary>
@@ -141,6 +141,13 @@ namespace NMS.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Logs in user using 2 factor authentication, a remember me flag, and a return url
+        /// </summary>
+        /// <param name="model">2 factor authentication model</param>
+        /// <param name="rememberMe">Whether to remember the user or not</param>
+        /// <param name="returnUrl">A URL to return the user to</param>
+        /// <returns>A redirect url or a view</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -180,6 +187,11 @@ namespace NMS.Controllers
             }
         }
 
+        /// <summary>
+        /// Log in with a recovery code
+        /// </summary>
+        /// <param name="returnUrl">URL to redirect the user to</param>
+        /// <returns>A view</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
@@ -196,6 +208,12 @@ namespace NMS.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Log in a user with a recorvery code and a 2 factor authentication model
+        /// </summary>
+        /// <param name="model">2 factor authentication model</param>
+        /// <param name="returnUrl">The URL to return the user to</param>
+        /// <returns>A redirect URL or a view</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -235,6 +253,10 @@ namespace NMS.Controllers
             }
         }
 
+        /// <summary>
+        /// Locks out the user
+        /// </summary>
+        /// <returns>A view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Lockout()
@@ -242,6 +264,11 @@ namespace NMS.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Registers a user
+        /// </summary>
+        /// <param name="returnUrl">URL to redirect the user to</param>
+        /// <returns>A view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
@@ -250,6 +277,12 @@ namespace NMS.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Register a user using a register model
+        /// </summary>
+        /// <param name="model">A <see cref="RegisterViewModel"/></param>
+        /// <param name="returnUrl">A return url</param>
+        /// <returns>A redirect URL or a view</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -280,6 +313,10 @@ namespace NMS.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Log out a user
+        /// </summary>
+        /// <returns>A redirect URL once logged out</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -289,6 +326,12 @@ namespace NMS.Controllers
             return this.RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        /// <summary>
+        /// Allows logging in from an external source
+        /// </summary>
+        /// <param name="provider">External logging in provider</param>
+        /// <param name="returnUrl">A URL to redirect the user to</param>
+        /// <returns>Challenges the external login provider</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -300,6 +343,12 @@ namespace NMS.Controllers
             return this.Challenge(properties, provider);
         }
 
+        /// <summary>
+        /// Handles the external login callback
+        /// </summary>
+        /// <param name="returnUrl">Redirect URL for users</param>
+        /// <param name="remoteError">An error that has occurred remotely</param>
+        /// <returns>a redirect or a view</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
@@ -338,6 +387,12 @@ namespace NMS.Controllers
             }
         }
 
+        /// <summary>
+        /// Confirmation of being logged in by an external provider
+        /// </summary>
+        /// <param name="model">An <see cref="ExternalLoginViewModel"/></param>
+        /// <param name="returnUrl">A redirect URL once users are logged in</param>
+        /// <returns>A redirect URL or a view</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -372,6 +427,12 @@ namespace NMS.Controllers
             return this.View(nameof(this.ExternalLogin), model);
         }
 
+        /// <summary>
+        /// A confirmation email
+        /// </summary>
+        /// <param name="userId">The user to send the email to</param>
+        /// <param name="code">The confirmation code</param>
+        /// <returns>A redirect URL or a page</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
@@ -391,6 +452,10 @@ namespace NMS.Controllers
             return this.View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+        /// <summary>
+        /// Handles forgot password requests
+        /// </summary>
+        /// <returns>A view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
@@ -398,6 +463,11 @@ namespace NMS.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Handles forgot password requests with a <see cref="ForgotPasswordViewModel"/>
+        /// </summary>
+        /// <param name="model">A <see cref="ForgotPasswordViewModel"/></param>
+        /// <returns>A Redirect URL or a view</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -416,8 +486,10 @@ namespace NMS.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await this.userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = this.Url.ResetPasswordCallbackLink(user.Id, code, this.Request.Scheme);
-                await this.emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                await this.emailSender.SendEmailAsync(
+                    model.Email,
+                    "Reset Password",
+                    $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
                 return this.RedirectToAction(nameof(this.ForgotPasswordConfirmation));
             }
 
@@ -425,6 +497,10 @@ namespace NMS.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Confirms a password forgot request confirmation
+        /// </summary>
+        /// <returns>A view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPasswordConfirmation()
@@ -432,6 +508,11 @@ namespace NMS.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Reset password request
+        /// </summary>
+        /// <param name="code">A password reset code</param>
+        /// <returns>A view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
@@ -445,6 +526,11 @@ namespace NMS.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Handles reset password requests with a <see cref="ResetPasswordViewModel"/>
+        /// </summary>
+        /// <param name="model">A <see cref="ResetPasswordViewModel"/></param>
+        /// <returns>A redirect URL or a view</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -472,6 +558,10 @@ namespace NMS.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Handles a reset password confirmation
+        /// </summary>
+        /// <returns>A view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPasswordConfirmation()
@@ -479,15 +569,20 @@ namespace NMS.Controllers
             return this.View();
         }
 
-
+        /// <summary>
+        /// Handles access denied
+        /// </summary>
+        /// <returns>A view</returns>
         [HttpGet]
         public IActionResult AccessDenied()
         {
             return this.View();
         }
 
-        #region Helpers
-
+        /// <summary>
+        /// Adds an error
+        /// </summary>
+        /// <param name="result">The result of an identity opertation</param>
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -496,6 +591,11 @@ namespace NMS.Controllers
             }
         }
 
+        /// <summary>
+        /// Redirect users to the <see cref="HomeController"/> index page
+        /// </summary>
+        /// <param name="returnUrl">A URL to redirect the user to</param>
+        /// <returns>A redirect to either the returnURL or to the <see cref="HomeController"/> index page</returns>
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (this.Url.IsLocalUrl(returnUrl))
@@ -507,7 +607,5 @@ namespace NMS.Controllers
                 return this.RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
-
-        #endregion
     }
 }

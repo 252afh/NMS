@@ -16,13 +16,13 @@ namespace NMS.Controllers
     /// </summary>
     public class AnnouncementsController : Controller
     {
-        private readonly nmsdbContext context;
+        private readonly NmsdbContext context;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="AnnouncementsController"/> class
         /// </summary>
         /// <param name="context">Datatbase context</param>
-        public AnnouncementsController(nmsdbContext context)
+        public AnnouncementsController(NmsdbContext context)
         {
             this.context = context;
         }

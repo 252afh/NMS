@@ -16,13 +16,13 @@ namespace NMS.Controllers
     /// </summary>
     public class BarringsController : Controller
     {
-        private readonly nmsdbContext context;
+        private readonly NmsdbContext context;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="BarringsController"/> class
         /// </summary>
         /// <param name="context">Database context</param>
-        public BarringsController(nmsdbContext context)
+        public BarringsController(NmsdbContext context)
         {
             this.context = context;
         }
